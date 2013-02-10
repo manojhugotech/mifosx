@@ -1,6 +1,7 @@
 package org.mifosplatform.portfolio.client.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.mifosplatform.portfolio.client.data.ClientAccountSummaryCollectionData;
 import org.mifosplatform.portfolio.client.data.ClientAccountSummaryData;
@@ -8,6 +9,7 @@ import org.mifosplatform.portfolio.client.data.ClientData;
 import org.mifosplatform.portfolio.client.data.ClientIdentifierData;
 import org.mifosplatform.portfolio.client.data.ClientLookup;
 import org.mifosplatform.portfolio.client.data.NoteData;
+import org.mifosplatform.portfolio.order.data.OrderData;
 
 public interface ClientReadPlatformService {
 
@@ -34,4 +36,6 @@ public interface ClientReadPlatformService {
     ClientIdentifierData retrieveClientIdentifier(Long clientId, Long clientIdentifierId);
 
     ClientData retrieveClientByIdentifier(Long identifierTypeId, String identifierKey);
+
+	List<OrderData> retrieveClientOrderDetails(Long clientId);
 }

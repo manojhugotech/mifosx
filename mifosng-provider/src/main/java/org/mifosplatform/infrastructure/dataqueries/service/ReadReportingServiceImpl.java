@@ -144,6 +144,8 @@ public class ReadReportingServiceImpl implements ReadReportingService {
         return writer;
     }
 
+
+
     @Override
     public GenericResultsetData retrieveGenericResultset(final String name, final String type, final Map<String, String> queryParams) {
 

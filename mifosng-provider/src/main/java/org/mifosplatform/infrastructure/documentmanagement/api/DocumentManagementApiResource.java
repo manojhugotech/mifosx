@@ -33,6 +33,8 @@ import org.mifosplatform.infrastructure.documentmanagement.data.DocumentData;
 import org.mifosplatform.infrastructure.documentmanagement.service.DocumentReadPlatformService;
 import org.mifosplatform.infrastructure.documentmanagement.service.DocumentWritePlatformService;
 import org.mifosplatform.infrastructure.security.service.PlatformSecurityContext;
+import org.mifosplatform.portfolio.ticketmaster.command.TicketMasterCommand;
+import org.mifosplatform.portfolio.ticketmaster.service.TicketMasterWritePlatformService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -56,16 +58,19 @@ public class DocumentManagementApiResource {
     private final DocumentWritePlatformService documentWritePlatformService;
     private final ApiRequestParameterHelper apiRequestParameterHelper;
     private final ToApiJsonSerializer<DocumentData> toApiJsonSerializer;
+    private final TicketMasterWritePlatformService ticketMasterWritePlatformService; 
 
     @Autowired
     public DocumentManagementApiResource(final PlatformSecurityContext context,
             final DocumentReadPlatformService documentReadPlatformService, final DocumentWritePlatformService documentWritePlatformService,
-            final ApiRequestParameterHelper apiRequestParameterHelper, final ToApiJsonSerializer<DocumentData> toApiJsonSerializer) {
+            final ApiRequestParameterHelper apiRequestParameterHelper, final ToApiJsonSerializer<DocumentData> toApiJsonSerializer,
+            final TicketMasterWritePlatformService ticketMasterWritePlatformService) {
         this.context = context;
         this.documentReadPlatformService = documentReadPlatformService;
         this.documentWritePlatformService = documentWritePlatformService;
         this.apiRequestParameterHelper = apiRequestParameterHelper;
         this.toApiJsonSerializer = toApiJsonSerializer;
+        this.ticketMasterWritePlatformService=ticketMasterWritePlatformService;
     }
 
     @GET
@@ -193,4 +198,33 @@ public class DocumentManagementApiResource {
 
         return this.toApiJsonSerializer.serialize(documentIdentifier);
     }
+    
+    @POST
+    @Path("{ticketId}/attachment")
+   @Consumes({ MediaType.MULTIPART_FORM_DATA })
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response addTicketDetails(@PathParam("ticketId") Long ticketId,@PathParam("entityType") String entityType, @PathParam("entityId") Long entityId,
+            @HeaderParam("Content-Length") Long fileSize, @FormDataParam("file") InputStream inputStream,
+            @FormDataParam("file") FormDataContentDisposition fileDetails, @FormDataParam("file") FormDataBodyPart bodyPart,
+            @FormDataParam("comments") String comments, @FormDataParam("status") String status, @FormDataParam("assignedTo") String assignedTo) {
+	   
+
+        FileUtils.validateFileSizeWithinPermissibleRange(fileSize, null, ApiConstants.MAX_FILE_UPLOAD_SIZE_IN_MB);
+
+        /**
+         * TODO: also need to have a backup and stop reading from stream after
+         * max size is reached to protect against malicious clients
+         **/
+
+        /**
+         * TODO: need to extract the actual file type and determine if they are
+         * permissable
+         **/
+        TicketMasterCommand ticketMasterCommand=new TicketMasterCommand(ticketId,comments,status,assignedTo);
+        DocumentCommand documentCommand = new DocumentCommand(null, null, entityType, entityId, null, fileDetails.getFileName(), fileSize,
+                bodyPart.getMediaType().toString(), null, null);
+
+					CommandProcessingResult userId = this.ticketMasterWritePlatformService.upDateTicketDetails(ticketMasterCommand,documentCommand,ticketId,inputStream);
+		return Response.ok().entity(userId).build();
+	}
 }

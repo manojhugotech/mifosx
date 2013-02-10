@@ -13,6 +13,11 @@ import org.mifosplatform.portfolio.savingsdepositaccount.command.DepositAccountW
 import org.mifosplatform.portfolio.savingsdepositaccount.command.DepositStateTransitionApprovalCommand;
 import org.mifosplatform.portfolio.savingsdepositaccount.command.DepositStateTransitionCommand;
 import org.mifosplatform.portfolio.savingsdepositproduct.command.DepositProductCommand;
+import org.mifosplatform.portfolio.servicemaster.commands.ServiceMasterCommand;
+import org.mifosplatform.portfolio.servicemaster.commands.ServicesCommand;
+import org.mifosplatform.portfolio.subscription.commands.SubscriptionCommand;
+import org.mifosplatform.portfolio.taxmaster.commands.TaxMappingRateCommand;
+import org.mifosplatform.portfolio.taxmaster.commands.TaxMasterCommand;
 
 public interface PortfolioApiDataConversionService {
 
@@ -41,5 +46,6 @@ public interface PortfolioApiDataConversionService {
     SavingAccountDepositCommand convertJsonToSavingAccountDepositCommand(Long accountId, String json);
 
     SavingAccountWithdrawalCommand convertJsonToSavingAccountWithdrawalCommand(Long accountId, String jsonRequestBody);
+    SubscriptionCommand convertJsonToSubscriptionCommand(Long resourceIdentifier, String json);
 
 }

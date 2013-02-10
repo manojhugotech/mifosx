@@ -1,5 +1,6 @@
 package org.mifosplatform.portfolio.client.service;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -26,6 +27,8 @@ import org.mifosplatform.portfolio.client.exception.ClientIdentifierNotFoundExce
 import org.mifosplatform.portfolio.client.exception.ClientNotFoundException;
 import org.mifosplatform.portfolio.client.exception.NoteNotFoundException;
 import org.mifosplatform.portfolio.loanproduct.service.LoanEnumerations;
+import org.mifosplatform.portfolio.order.data.OrderData;
+import org.mifosplatform.portfolio.order.data.SavingStatusEnumaration;
 import org.mifosplatform.useradministration.data.AppUserData;
 import org.mifosplatform.useradministration.domain.AppUser;
 import org.mifosplatform.useradministration.service.AppUserReadPlatformService;
@@ -130,10 +133,10 @@ public class ClientReadPlatformServiceImpl implements ClientReadPlatformService 
     private static final class ClientMapper implements RowMapper<ClientData> {
 
         public String clientSchema() {
-            return "c.account_no as accountNo, c.office_id as officeId, o.name as officeName, c.id as id, "
-                    + "c.firstname as firstname, c.middlename as middlename, c.lastname as lastname, "
-                    + "c.fullname as fullname, c.display_name as displayName, "
-                    + "c.external_id as externalId, c.joined_date as joinedDate, c.image_key as imagekey from m_client c join m_office o on o.id = c.office_id "
+            return "c.account_no as accountNo,c.office_id as officeId, o.name as officeName, c.id as id, c.firstname as firstname, c.lastname as lastname," +
+			"c.fullname as fullname, c.display_name as displayName, "
+                    + " c.middlename as middlename,c.external_id as externalId, c.joined_date as joinedDate, c.image_key as imagekey,cb.balance_amount as balance from m_client c join m_office o on o.id = c.office_id" +
+                    " left join client_balance cb on cb.client_id=c.id "
                     + " where o.hierarchy like ? and c.is_deleted=0 ";
         }
 
@@ -152,9 +155,10 @@ public class ClientReadPlatformServiceImpl implements ClientReadPlatformService 
             final LocalDate joinedDate = JdbcSupport.getLocalDate(rs, "joinedDate");
             final String imageKey = rs.getString("imageKey");
             final String officeName = rs.getString("officeName");
+            final BigDecimal balance = rs.getBigDecimal("balance");
 
             return new ClientData(accountNo, officeId, officeName, id, firstname, middlename, lastname, fullname, displayName, externalId,
-                    joinedDate, imageKey, null, null, null);
+                    joinedDate, imageKey, null, null, null,balance);
         }
 
     }
@@ -543,7 +547,7 @@ public class ClientReadPlatformServiceImpl implements ClientReadPlatformService 
             final Long officeId = rs.getLong("officeId");
             final String officeName = rs.getString("officeName");
 
-            return ClientData.clientIdentifier(id, accountNo, firstname, middlename, lastname, fullname, displayName, officeId, officeName);
+            return ClientData.clientIdentifier(id, accountNo, firstname, middlename, lastname, fullname, displayName, officeId, officeName,null);
         }
     }
 
@@ -570,5 +574,45 @@ public class ClientReadPlatformServiceImpl implements ClientReadPlatformService 
             return new ClientAccountSummaryData(id, externalId, productId, productName, accountStatusId);
         }
     }
+
+	@Override
+public List<OrderData> retrieveClientOrderDetails(Long clientId) {
+try {
+final ClientOrderMapper mapper = new ClientOrderMapper();
+
+final String sql = "select " + mapper.clientOrderLookupSchema()+" where o.plan_id = p.id and o.client_id= ? and o.is_deleted='n' ";
+
+return jdbcTemplate.query(sql, mapper, new Object[] { clientId});
+} catch (EmptyResultDataAccessException e) {
+return null;
+}
+
+}
+
+private static final class ClientOrderMapper implements RowMapper<OrderData> {
+
+public String clientOrderLookupSchema() {
+return "o.id as id, o.plan_id as plan_id,o.start_date as start_date,o.order_status as order_status,p.plan_code as plan_code,o.contract_period as contract_period,"
++"o.end_date as end_date,(select sum(ol.price) as price from order_price ol where o.id=ol.order_id) as price from orders o,plan_master p";
+}
+
+@Override
+public OrderData mapRow(final ResultSet rs, @SuppressWarnings("unused") final int rowNum) throws SQLException {
+
+final Long id = rs.getLong("id");
+final Long planId = rs.getLong("plan_id");
+final String plancode = rs.getString("plan_code");
+final int statusId = rs.getInt("order_status");
+LocalDate startDate=JdbcSupport.getLocalDate(rs,"start_date");
+LocalDate endDate=JdbcSupport.getLocalDate(rs,"end_date");
+final double price=rs.getDouble("price");
+
+
+EnumOptionData Enumstatus=SavingStatusEnumaration.interestCompoundingPeriodType(statusId);
+String status=Enumstatus.getValue();
+
+return new OrderData(id, planId, plancode, status, startDate,endDate,price);
+}
+}
 
 }
