@@ -14,10 +14,10 @@ public class GmailBackedPlatformEmailService implements PlatformEmailService {
     public void sendToUserAccount(final EmailDetail emailDetail, final String unencodedPassword) {
         Email email = new SimpleEmail();
 
-        String authuserName = "support@cloudmicrofinance.com";
+        String authuserName = "info@hugotechnologies.com";
 
-        String authuser = "support@cloudmicrofinance.com";
-        String authpwd = "support80";
+        String authuser = "manojanand@hugotechnologies.com";
+        String authpwd = "manoj@123";
 
         // Very Important, Don't use email.setAuthentication()
         email.setAuthenticator(new DefaultAuthenticator(authuser, authpwd));

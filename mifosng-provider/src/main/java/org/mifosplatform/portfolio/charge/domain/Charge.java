@@ -191,4 +191,9 @@ public class Charge extends AbstractPersistable<Long> {
         this.deleted = true;
         this.name = this.getId() + "_" + this.name;
     }
+
+	public void updateBillId(Long billId) {
+		// TODO Auto-generated method stub
+
+	}
 }
