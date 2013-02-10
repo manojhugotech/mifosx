@@ -1,5 +1,6 @@
 package org.mifosplatform.portfolio.client.data;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 
@@ -24,6 +25,7 @@ final public class ClientData {
     private final String officeName;
     private final LocalDate joinedDate;
     private final String imageKey;
+    private  BigDecimal balance;
     @SuppressWarnings("unused")
     private final Boolean imagePresent;
 
@@ -37,41 +39,42 @@ final public class ClientData {
 
         String localDisplayName = null;
         return new ClientData(null, officeId, null, id, firstname, middlename, lastname, fullname, localDisplayName, externalId,
-                joiningDate, null, null, null, null);
+                joiningDate, null, null, null, null,null);
     }
 
     public static ClientData integrateChanges(final ClientData clientData, ClientData currentChange, final Collection<ClientData> allChanges) {
         return new ClientData(clientData.accountNo, clientData.officeId, clientData.officeName, clientData.id, clientData.firstname,
                 clientData.middlename, clientData.lastname, clientData.fullname, clientData.displayName, clientData.externalId,
-                clientData.joinedDate, clientData.imageKey, clientData.allowedOffices, currentChange, allChanges);
+                clientData.joinedDate, clientData.imageKey, clientData.allowedOffices, currentChange, allChanges,clientData.balance);
     }
 
     public static ClientData template(final Long officeId, final LocalDate joinedDate, final List<OfficeLookup> allowedOffices) {
-        return new ClientData(null, officeId, null, null, null, null, null, null, null, null, joinedDate, null, allowedOffices, null, null);
+        return new ClientData(null, officeId, null, null, null, null, null, null, null, null, joinedDate, null, allowedOffices, null, null,null);
     }
 
     public static ClientData templateOnTop(final ClientData clientData, final List<OfficeLookup> allowedOffices) {
 
         return new ClientData(clientData.accountNo, clientData.officeId, clientData.officeName, clientData.id, clientData.firstname,
                 clientData.middlename, clientData.lastname, clientData.fullname, clientData.displayName, clientData.externalId,
-                clientData.joinedDate, clientData.imageKey, allowedOffices, clientData.currentChange, clientData.allChanges);
+                clientData.joinedDate, clientData.imageKey, allowedOffices, clientData.currentChange, clientData.allChanges,clientData.balance);
     }
 
     public static ClientData clientIdentifier(final Long id, final String accountIdentifier, final String firstname,
             final String middlename, final String lastname, final String fullname, final String displayName, final Long officeId,
-            final String officeName) {
+            final String officeName,BigDecimal balance) {
 
         return new ClientData(accountIdentifier, officeId, officeName, id, firstname, middlename, lastname, fullname, displayName, null,
-                null, null, null, null, null);
+                null, null, null, null, null,balance);
     }
 
     public ClientData(final String accountNo, final Long officeId, final String officeName, final Long id, final String firstname,
             final String middlename, final String lastname, final String fullname, final String displayName, final String externalId,
             final LocalDate joinedDate, final String imageKey, final List<OfficeLookup> allowedOffices, final ClientData currentChange,
-            final Collection<ClientData> allChanges) {
+            final Collection<ClientData> allChanges,BigDecimal balance) {
         this.accountNo = accountNo;
         this.officeId = officeId;
         this.officeName = officeName;
+        this.balance=balance;
         this.id = id;
         this.firstname = StringUtils.defaultIfEmpty(firstname, null);
         this.middlename = StringUtils.defaultIfEmpty(middlename, null);
@@ -81,6 +84,7 @@ final public class ClientData {
         this.externalId = StringUtils.defaultIfEmpty(externalId, null);
         this.joinedDate = joinedDate;
         this.imageKey = imageKey;
+
         if (imageKey != null) {
             this.imagePresent = Boolean.TRUE;
         } else {

@@ -24,7 +24,8 @@ public class FileUtils {
 
     private final static Logger logger = LoggerFactory.getLogger(FileUtils.class);
 
-    public static final String MIFOSX_BASE_DIR = System.getProperty("user.home") + File.separator + ".mifosx";
+    public static final String MIFOSX_BASE_DIR = System.getProperty("user.home") + File.separator + "billing";
+   // public static final String MIFOSX_BASE_DIR = System.getProperty("user.home");
 
     public static Random random = new Random();
 
