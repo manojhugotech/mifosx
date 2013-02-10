@@ -34,6 +34,7 @@ import org.mifosplatform.portfolio.savingsdepositaccount.command.DepositAccountW
 import org.mifosplatform.portfolio.savingsdepositaccount.command.DepositStateTransitionApprovalCommand;
 import org.mifosplatform.portfolio.savingsdepositaccount.command.DepositStateTransitionCommand;
 import org.mifosplatform.portfolio.savingsdepositproduct.command.DepositProductCommand;
+import org.mifosplatform.portfolio.subscription.commands.SubscriptionCommand;
 import org.springframework.format.number.NumberFormatter;
 import org.springframework.stereotype.Service;
 
@@ -928,4 +929,28 @@ public class PortfolioApiDataConversionServiceImpl implements PortfolioApiDataCo
         String note = extractStringParameter("note", requestMap, modifiedParameters);
         return new SavingAccountWithdrawalCommand(accountId, transactionDate, amount, note);
     }
+    
+    
+    @Override
+	  public SubscriptionCommand convertJsonToSubscriptionCommand(final Long resourceIdentifier, final String json)
+	  {
+	  if (StringUtils.isBlank(json)) {
+	  throw new InvalidJsonException();
+	  }
+
+	  Set<String> modifiedParameters = new HashSet<String>();
+	  Type typeOfMap = new TypeToken<Map<String, String>>() {}.getType();
+	  Map<String, String> requestMap = gsonConverter.fromJson(json, typeOfMap);
+	  Set<String> supportedParams = new HashSet<String>(
+	  Arrays.asList("id","subscription_period","units","day_name","subscriptionTypeId")
+	  );
+	  checkForUnsupportedParameters(requestMap, supportedParams);
+	  Long sub_id=extractLongParameter("id", requestMap, modifiedParameters);
+	  //String subscription_type = extractStringParameter("subscription_type", requestMap,modifiedParameters);
+	   String subscription_period=extractStringParameter("subscription_period",requestMap,modifiedParameters);
+	  Long units=extractLongParameter("units",requestMap,modifiedParameters);
+	  Long subscriptionTypeId=extractLongParameter("subscriptionTypeId",requestMap,modifiedParameters);
+	  String day_name=extractStringParameter("day_name",requestMap,modifiedParameters);
+	  return new SubscriptionCommand(modifiedParameters,sub_id,resourceIdentifier,subscription_period,units,day_name,subscriptionTypeId);
+	  }
 }
