@@ -17,6 +17,7 @@ import org.mifosplatform.portfolio.servicemaster.commands.ServicesCommand;
 import org.mifosplatform.portfolio.subscription.commands.SubscriptionCommand;
 import org.mifosplatform.portfolio.taxmaster.commands.TaxMappingRateCommand;
 import org.mifosplatform.portfolio.taxmaster.commands.TaxMasterCommand;
+import org.mifosplatform.portfolio.ticketmaster.command.TicketMasterCommand;
 
 public interface PortfolioApiDataBillingConversionService {
 
@@ -68,5 +69,7 @@ public interface PortfolioApiDataBillingConversionService {
 	LocalDate convertJsonToBillingProductCommand(Long resourceIdentifier,String jsonRequestBody);
 
 	BillMasterCommand convertJsonToBillMasterCommand(Long resourceIdentifier,String json);
+
+	TicketMasterCommand convertJsonToTicketMasterCommand(Object object,String jsonRequestBody);
 
 }

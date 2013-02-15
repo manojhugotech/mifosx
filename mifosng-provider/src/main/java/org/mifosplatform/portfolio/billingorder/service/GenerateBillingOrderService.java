@@ -19,5 +19,5 @@ public interface GenerateBillingOrderService {
 
 	public InvoiceCommand generateInvoice(List<BillingOrderCommand> billingOrderCommands);
 
-
+	
 }

@@ -23,16 +23,16 @@ private Long id;
 	private Order orders;
 
 	@Column(name = "service_id")
-	private Long service_id;
+	private Long serviceId;
 
 	@Column(name = "service_type")
-	private String service_type;
+	private String serviceType;
 
 	@Column(name = "service_status")
-	private Long service_status;
+	private Long serviceStatus;
 
 	@Column(name = "is_deleted")
-	private boolean is_deleted;
+	private boolean isDeleted;
 
 	public OrderLine()
 	{}
@@ -40,15 +40,15 @@ private Long id;
 	public OrderLine(final Long service_id,final String service_type,final Long service_status,final boolean isdeleted )
 	{
 		this.orders=null;
-		this.service_id=service_id;
-		this.service_status=service_id;
-		this.is_deleted=isdeleted;
-		this.service_type=service_type;
+		this.serviceId=service_id;
+		this.serviceStatus=service_id;
+		this.isDeleted=isdeleted;
+		this.serviceType=service_type;
 
 	}
 public OrderLine(final String service_code)
 {
-	this.service_type=service_code;
+	this.serviceType=service_code;
 	}
 
 	public Order getOrder_id() {
@@ -57,22 +57,22 @@ public OrderLine(final String service_code)
 
 
 	public Long getService_id() {
-		return service_id;
+		return serviceId;
 	}
 
 
-	public String getService_type() {
-		return service_type;
+	public String getServiceType() {
+		return serviceType;
 	}
 
 
 	public Long getService_status() {
-		return service_status;
+		return serviceStatus;
 	}
 
 
 	public boolean isIs_deleted() {
-		return is_deleted;
+		return isDeleted;
 	}
 	public  void update(Order order2)
 	{
@@ -82,7 +82,7 @@ public OrderLine(final String service_code)
 
 	public void delete() {
 
-		this.is_deleted=true;
+		this.isDeleted=true;
 
 
 	}

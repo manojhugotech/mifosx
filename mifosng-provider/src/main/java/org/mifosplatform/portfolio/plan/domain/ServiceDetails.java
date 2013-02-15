@@ -1,4 +1,4 @@
-package org.mifosplatform.portfolio.savingplan.domain;
+package org.mifosplatform.portfolio.plan.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

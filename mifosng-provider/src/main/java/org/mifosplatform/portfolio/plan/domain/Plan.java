@@ -1,4 +1,4 @@
-package org.mifosplatform.portfolio.savingplan.domain;
+package org.mifosplatform.portfolio.plan.domain;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,7 +18,6 @@ import org.joda.time.LocalDate;
 import org.mifosplatform.portfolio.plan.commands.PlansCommand;
 import org.mifosplatform.portfolio.plan.data.PlanData;
 import org.mifosplatform.portfolio.plan.data.ServiceData;
-import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @Entity
 @Table(name = "plan_master")

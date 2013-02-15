@@ -18,6 +18,7 @@ import org.mifosplatform.portfolio.billingorder.commands.InvoiceCommand;
 import org.mifosplatform.portfolio.billingorder.data.BillingOrderData;
 import org.mifosplatform.portfolio.billingorder.domain.BillingOrder;
 import org.mifosplatform.portfolio.billingorder.domain.Invoice;
+import org.mifosplatform.portfolio.billingorder.exceptions.BillingOrderNoRecordsFoundException;
 import org.mifosplatform.portfolio.billingorder.service.BillingOrderReadPlatformService;
 import org.mifosplatform.portfolio.billingorder.service.BillingOrderWritePlatformService;
 import org.mifosplatform.portfolio.billingorder.service.GenerateBillingOrderService;
@@ -58,20 +59,20 @@ public class BillingOrderApiResourse {
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response retrieveBillingProducts(@PathParam("clientId") final Long clientId,final String jsonRequestBody) {
 
-			LocalDate  localDate = this.apiDataConversionService.convertJsonToBillingProductCommand(null, jsonRequestBody);
-			// Get List of Plans
-			List<Long> orderIds = billingOrderReadPlatformService.retrieveOrderIds(clientId);
+		 	LocalDate  localDate = this.apiDataConversionService.convertJsonToBillingProductCommand(null, jsonRequestBody);
 
-			// for each plan
-			for(Long orderId : orderIds){
-			// call below code with client_id , date and plan_id
-
+		 	List<Long> orderIds = billingOrderReadPlatformService.retrieveOrderIds(clientId,localDate.toDate());
+		    if(orderIds.size()==0){
+		    	throw new BillingOrderNoRecordsFoundException();
+		    }
+		 	for(Long orderId : orderIds){
+		 	
 			// Charges
-			List<BillingOrderData> products = this.billingOrderReadPlatformService.retrieveBillingOrderData(clientId,localDate,orderId);
-
+		 	List<BillingOrderData> products = this.billingOrderReadPlatformService.retrieveBillingOrderData(clientId,localDate,orderId);
+			
 			List<BillingOrderCommand> billingOrderCommands = this.generateBillingOrderService.generatebillingOrder(products);
 			List<BillingOrder> listOfBillingOrders = billingOrderWritePlatformService.createBillingProduct(billingOrderCommands);
-
+			
 			// Invoice
 			InvoiceCommand invoiceCommand = this.generateBillingOrderService.generateInvoice(billingOrderCommands);
 			List<ClientBalanceData> clientBalancesDatas =  adjustmentReadPlatformService.retrieveAllAdjustments(clientId);
@@ -79,50 +80,15 @@ public class BillingOrderApiResourse {
 
 			// Update invoice-tax
 			billingOrderWritePlatformService.updateInvoiceTax(invoice,billingOrderCommands,listOfBillingOrders);
-
+			
 			// Update charge
 			 billingOrderWritePlatformService.updateInvoiceCharge(invoice, listOfBillingOrders);
-
+			
 			// Update orders
 			billingOrderWritePlatformService.updateBillingOrder(billingOrderCommands);
 
 			// Update order-price
 			CommandProcessingResult entityIdentifier = billingOrderWritePlatformService.updateOrderPrice(billingOrderCommands);
-
-
-/*
-		// Tax
-		List<List<InvoiceTax>> listOfListOfTax = new ArrayList<List<InvoiceTax>>();
-		List<InvoiceTax> tax = new ArrayList<InvoiceTax>();
-		for(BillingOrder command : listOfBillingOrders){
-
-			List<TaxMappingRateData> taxMappingRateDatas = billingOrderReadPlatformService.retrieveTaxMappingDate(command.getChargeCode());
-			List<InvoiceTaxCommand> invoiceTaxCommand = this.generateBillingOrderService.generateInvoiceTax(taxMappingRateDatas, command);
-			tax = billingOrderWritePlatformService.createInvoiceTax(invoiceTaxCommand);
-			listOfListOfTax.add(tax);
-		}
-
-		List<TaxMappingRateData> taxMappingRateDatas = billingOrderReadPlatformService.retrieveTaxMappingDate(command.getChargeCode());
-		List<InvoiceTaxCommand> invoiceTaxCommand = this.generateBillingOrderService.generateInvoiceTax(taxMappingRateDatas, command);
-		List<InvoiceTax> tax = billingOrderWritePlatformService.createInvoiceTax(invoiceTaxCommand);
-*/
-
-//		// Invoice
-//		InvoiceCommand invoiceCommand = this.generateBillingOrderService.generateInvoice(billingOrderCommands);
-//		List<ClientBalanceData> clientBalancesDatas =  adjustmentReadPlatformService.retrieveAllAdjustments(clientId);
-//		Invoice invoice = billingOrderWritePlatformService.createInvoice(invoiceCommand,localDate,clientBalancesDatas);
-//
-//		// Update invoice-tax
-//		 billingOrderWritePlatformService.updateInvoiceTax(invoice,billingOrderCommands,listOfBillingOrders);
-//
-//		// Update charge
-//		 billingOrderWritePlatformService.updateInvoiceCharge(invoice, listOfBillingOrders);
-//
-//		// Update orders
-//		 billingOrderWritePlatformService.updateBillingOrder(billingOrderCommands);
-//
-//		// Update order-price
-//		CommandProcessingResult entityIdentifier = billingOrderWritePlatformService.updateOrderPrice(billingOrderCommands);
 
 		}
 		return Response.ok().entity(1l).build();

@@ -2,9 +2,7 @@ package org.mifosplatform.portfolio.billingorder.service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.joda.time.LocalDate;
 import org.mifosplatform.portfolio.billingorder.commands.BillingOrderCommand;
@@ -25,15 +23,16 @@ public class GenerateBillingOrderServiceImplementation implements
 	private final GenerateBill generateBill;
 	private final OrderRepository orderRepository;
 
-
 	@Autowired
-	public GenerateBillingOrderServiceImplementation(GenerateBill generateBill,final OrderRepository orderRepository) {
+	public GenerateBillingOrderServiceImplementation(GenerateBill generateBill,
+			final OrderRepository orderRepository) {
 		this.generateBill = generateBill;
 		this.orderRepository = orderRepository;
 	}
 
 	@Override
-	public List<BillingOrderCommand> generatebillingOrder(List<BillingOrderData> products) {
+	public List<BillingOrderCommand> generatebillingOrder(
+			List<BillingOrderData> products) {
 
 		BillingOrderCommand billingOrderCommand = null;
 		List<BillingOrderCommand> billingOrderCommands = new ArrayList<BillingOrderCommand>();
@@ -68,83 +67,95 @@ public class GenerateBillingOrderServiceImplementation implements
 
 			for (BillingOrderData billingOrderData : products) {
 
-				// Inserting the data into invoice_charge
-
-
-				if (generateBill.isChargeTypeNRC(billingOrderData)) {
-					// code to be developed latter
-					System.out.println("---- NRC ---");
-					if(billingOrderData.getChargeDuration()>=1){
-						billingOrderCommand = generateBill.getOneTimeBill(billingOrderData);
-						billingOrderCommands.add(billingOrderCommand);
-
-					}else {
-
-					}
-
-				} else if (generateBill.isChargeTypeRC(billingOrderData)) {
-
-					System.out.println("---- RC ----");
-
-					BigDecimal pricePerMonth = null;
-					LocalDate startDate = null;
-					LocalDate endDate = null;
-					BigDecimal price = null;
-					LocalDate invoiceTillDate = null;
-					LocalDate nextbillDate = null;
-					// monthly
-					if (billingOrderData.getDurationType().equalsIgnoreCase(
-							"month(s)")) {
-						if (billingOrderData.getBillingAlign().equalsIgnoreCase("n")) {
-
-							billingOrderCommand = generateBill.getMonthyBill(billingOrderData);
-							billingOrderCommands.add(billingOrderCommand);
-
-						} else if (billingOrderData.getBillingAlign().equalsIgnoreCase("y")) {
-
-							if (billingOrderData.getInvoiceTillDate() == null) {
-
-								billingOrderCommand = generateBill.getProrataMonthlyFirstBill(billingOrderData);
-								billingOrderCommands.add(billingOrderCommand);
-
-							} else if (billingOrderData.getInvoiceTillDate() != null) {
-
-								billingOrderCommand = generateBill.getNextMonthBill(billingOrderData);
-								billingOrderCommands.add(billingOrderCommand);
-
-							}
-						}
-
-						// weekly
-					} else if (billingOrderData.getDurationType()
-							.equalsIgnoreCase("week(s)")) {
-
-						if (billingOrderData.getBillingAlign().equalsIgnoreCase("n")) {
-
-							billingOrderCommand = generateBill.getWeeklyBill(billingOrderData);
-							billingOrderCommands.add(billingOrderCommand);
-
-
-						} else if (billingOrderData.getBillingAlign().equalsIgnoreCase("y")) {
-
-							if (billingOrderData.getInvoiceTillDate() == null) {
-
-								billingOrderCommand = generateBill.getProrataWeeklyFirstBill(billingOrderData);
-								billingOrderCommands.add(billingOrderCommand);
-
-							} else if (billingOrderData.getInvoiceTillDate() != null) {
-
-								billingOrderCommand = generateBill.getNextWeeklyBill(billingOrderData);
-								billingOrderCommands.add(billingOrderCommand);
-							}
-						}
-
-						// daily
-					} else if (billingOrderData.getDurationType()
-							.equalsIgnoreCase("daily")) {
-						// To be developed latter
-					}
+				if(billingOrderData.getOrderStatus() ==3){
+					billingOrderCommand=generateBill.getCancelledOrderBill(billingOrderData);	
+					billingOrderCommands.add(billingOrderCommand);
 				}
+				
+				else if (generateBill.isChargeTypeNRC(billingOrderData)) {
+						// code to be developed latter
+						System.out.println("---- NRC ---");
+							billingOrderCommand = generateBill.getOneTimeBill(billingOrderData);
+							billingOrderCommands.add(billingOrderCommand);
+
+					} else if (generateBill.isChargeTypeRC(billingOrderData)) {
+
+						System.out.println("---- RC ----");
+
+						BigDecimal pricePerMonth = null;
+						LocalDate startDate = null;
+						LocalDate endDate = null;
+						BigDecimal price = null;
+						LocalDate invoiceTillDate = null;
+						LocalDate nextbillDate = null;
+						// monthly
+						if (billingOrderData.getDurationType()
+								.equalsIgnoreCase("month(s)") ) {
+							if (billingOrderData.getBillingAlign()
+									.equalsIgnoreCase("N")) {
+
+								billingOrderCommand = generateBill
+										.getMonthyBill(billingOrderData);
+								billingOrderCommands.add(billingOrderCommand);
+
+							} else if (billingOrderData.getBillingAlign().equalsIgnoreCase("Y")) {
+
+								if (billingOrderData.getInvoiceTillDate() == null) {
+
+									billingOrderCommand = generateBill
+											.getProrataMonthlyFirstBill(billingOrderData);
+									billingOrderCommands
+											.add(billingOrderCommand);
+
+								} else if (billingOrderData
+										.getInvoiceTillDate() != null) {
+
+									billingOrderCommand = generateBill
+											.getNextMonthBill(billingOrderData);
+									billingOrderCommands
+											.add(billingOrderCommand);
+
+								}
+							}
+
+							// weekly
+						} else if (billingOrderData.getDurationType()
+								.equalsIgnoreCase("week(s)")) {
+
+							if (billingOrderData.getBillingAlign()
+									.equalsIgnoreCase("N")) {
+
+								billingOrderCommand = generateBill
+										.getWeeklyBill(billingOrderData);
+								billingOrderCommands.add(billingOrderCommand);
+
+							} else if (billingOrderData.getBillingAlign()
+									.equalsIgnoreCase("Y")) {
+
+								if (billingOrderData.getInvoiceTillDate() == null) {
+
+									billingOrderCommand = generateBill
+											.getProrataWeeklyFirstBill(billingOrderData);
+									billingOrderCommands
+											.add(billingOrderCommand);
+
+								} else if (billingOrderData
+										.getInvoiceTillDate() != null) {
+
+									billingOrderCommand = generateBill
+											.getNextWeeklyBill(billingOrderData);
+									billingOrderCommands
+											.add(billingOrderCommand);
+								}
+							}
+
+							// daily
+						} else if (billingOrderData.getDurationType()
+								.equalsIgnoreCase("daily")) {
+							// To be developed latter
+						}
+					}
+				
 			}
 		} else if (products.size() == 0) {
 			throw new BillingOrderNoRecordsFoundException();
@@ -154,9 +165,9 @@ public class GenerateBillingOrderServiceImplementation implements
 	}
 
 	@Override
-	public List<InvoiceTaxCommand> generateInvoiceTax(List<TaxMappingRateData> taxMappingRateDatas,BigDecimal price,Long clientId ) {
-
-
+	public List<InvoiceTaxCommand> generateInvoiceTax(
+			List<TaxMappingRateData> taxMappingRateDatas, BigDecimal price,
+			Long clientId) {
 
 		BigDecimal taxPercentage = null;
 		String taxCode = null;
@@ -169,12 +180,11 @@ public class GenerateBillingOrderServiceImplementation implements
 
 				taxPercentage = taxMappingRateData.getRate();
 				taxCode = taxMappingRateData.getTaxCode();
-				taxAmount = price.multiply(
-						taxPercentage.divide(new BigDecimal(100)));
+				taxAmount = price.multiply(taxPercentage.divide(new BigDecimal(
+						100)));
 
-				invoiceTaxCommand = new InvoiceTaxCommand(
-						clientId, null, null, taxCode, null,
-						taxPercentage, taxAmount);
+				invoiceTaxCommand = new InvoiceTaxCommand(clientId, null, null,
+						taxCode, null, taxPercentage, taxAmount);
 				invoiceTaxCommands.add(invoiceTaxCommand);
 			}
 
@@ -184,110 +194,124 @@ public class GenerateBillingOrderServiceImplementation implements
 	}
 
 	@Override
-	public InvoiceCommand generateInvoice(List<BillingOrderCommand> billingOrderCommands) {
+	public InvoiceCommand generateInvoice(
+			List<BillingOrderCommand> billingOrderCommands) {
 		BigDecimal totalChargeAmountForServices = BigDecimal.ZERO;
 		BigDecimal totalTaxAmountForServices = BigDecimal.ZERO;
 		BigDecimal invoiceAmount = BigDecimal.ZERO;
 		LocalDate invoiceDate = new LocalDate();
-		for(BillingOrderCommand billingOrderCommand : billingOrderCommands){
-			totalChargeAmountForServices = billingOrderCommand.getPrice().add(totalChargeAmountForServices);
+		for (BillingOrderCommand billingOrderCommand : billingOrderCommands) {
+			totalChargeAmountForServices = billingOrderCommand.getPrice().add(
+					totalChargeAmountForServices);
 			List<InvoiceTax> listOfTaxes = billingOrderCommand.getListOfTax();
 			BigDecimal netTaxForService = BigDecimal.ZERO;
-			for(InvoiceTax invoiceTax : listOfTaxes){
-				netTaxForService = invoiceTax.getTaxAmount().add(netTaxForService);
+			for (InvoiceTax invoiceTax : listOfTaxes) {
+				netTaxForService = invoiceTax.getTaxAmount().add(
+						netTaxForService);
 			}
-			totalTaxAmountForServices = totalTaxAmountForServices.add(netTaxForService);
+			totalTaxAmountForServices = totalTaxAmountForServices
+					.add(netTaxForService);
 		}
-		invoiceAmount = totalChargeAmountForServices.add(totalTaxAmountForServices);
+		invoiceAmount = totalChargeAmountForServices
+				.add(totalTaxAmountForServices);
 
-		return new InvoiceCommand(billingOrderCommands.get(0).getClientId(), invoiceDate.toDate(),
-				invoiceAmount, totalChargeAmountForServices, totalTaxAmountForServices, "active", null,
-				null, null, null);
-
+		return new InvoiceCommand(billingOrderCommands.get(0).getClientId(),
+				invoiceDate.toDate(), invoiceAmount,
+				totalChargeAmountForServices, totalTaxAmountForServices,
+				"active", null, null, null, null);
 
 		// invoice amount as zero
-//		List<InvoiceCommand> invoiceCommands = new ArrayList<InvoiceCommand>();
-//		List<Long> orderIds = new ArrayList<Long>();
-//		for(BillingOrderCommand billingOrderCommand : billingOrderCommands){
-//			Long orderId = billingOrderCommand.getClientOrderId();
-//			orderIds.add(orderId);
-//		}
-//
-//		Set<Long> clientOrderIds = toSet(orderIds);
+		// List<InvoiceCommand> invoiceCommands = new
+		// ArrayList<InvoiceCommand>();
+		// List<Long> orderIds = new ArrayList<Long>();
+		// for(BillingOrderCommand billingOrderCommand : billingOrderCommands){
+		// Long orderId = billingOrderCommand.getClientOrderId();
+		// orderIds.add(orderId);
+		// }
+		//
+		// Set<Long> clientOrderIds = toSet(orderIds);
 
-//		for(Long orderId : clientOrderIds){
-//			BigDecimal totalChargeAmountForServices = BigDecimal.ZERO;
-//			BigDecimal totalTaxAmountForServices = BigDecimal.ZERO;
-//			BigDecimal invoiceAmount = BigDecimal.ZERO;
-//			LocalDate invoiceDate = new LocalDate();
-//			for(BillingOrderCommand billingOrderCommand : billingOrderCommands){
-//				if(billingOrderCommand.getClientOrderId()== orderId){
-//					// our main logic goes here
-//					totalChargeAmountForServices = billingOrderCommand.getPrice().add(totalChargeAmountForServices);
-//					BigDecimal netTaxForService = BigDecimal.ZERO;
-//					List<InvoiceTax> listOfTaxes = billingOrderCommand.getListOfTax();
-//					for(InvoiceTax invoiceTax : listOfTaxes){
-//						netTaxForService = invoiceTax.getTaxAmount().add(netTaxForService);
-//					}
-//					totalTaxAmountForServices = totalTaxAmountForServices.add(netTaxForService);
-//				}
-//			}
-//			invoiceAmount = totalChargeAmountForServices.add(totalTaxAmountForServices);
-//			InvoiceCommand invoiceCommand =  new InvoiceCommand(billingOrderCommands.get(0).getClientId(), invoiceDate.toDate(),
-//					invoiceAmount, totalChargeAmountForServices, totalTaxAmountForServices, "active", null,
-//					null, null, null);
-//
-//			invoiceCommands.add(invoiceCommand);
-//		}
-//		return invoiceCommands;
-
-
-
-//		for(BillingOrderCommand billingOrderCommand : billingOrderCommands){
-//			totalChargeAmountForServices = billingOrderCommand.getPrice().add(totalChargeAmountForServices);
-//			BigDecimal netTaxForService = BigDecimal.ZERO;
-//			List<InvoiceTax> listOfTaxes = billingOrderCommand.getListOfTax();
-//			for(InvoiceTax invoiceTax : listOfTaxes){
-//				netTaxForService = invoiceTax.getTaxAmount().add(netTaxForService);
-//			}
-//			totalTaxAmountForServices = totalTaxAmountForServices.add(netTaxForService);
-//
-//		}
-//
-//		invoiceAmount = totalChargeAmountForServices.add(totalTaxAmountForServices);
-
-
-//		for(BillingOrder billingOrder : listOfBillingOrders){
-//			BigDecimal netChargeAmount = billingOrder.getChargeAmount();
-//			BigDecimal netTaxAmount = BigDecimal.ZERO;
-//			for(List<InvoiceTax> tax : listOfListOfTaxes){
-//				BigDecimal taxAmount = BigDecimal.ZERO;
-//				if (tax.size() != 0) {
-//					for (InvoiceTax invoiceTax : tax) {
-//						taxAmount = invoiceTax.getTaxAmount();
-//						netTaxAmount = taxAmount.add(netTaxAmount);
-//					}
-//				}
-//			}
-//			totalTaxAmount = netTaxAmount.add(totalTaxAmount);
-//			totalChargeAmount = netChargeAmount.add(totalChargeAmount);
-//
-//		}
+		// for(Long orderId : clientOrderIds){
+		// BigDecimal totalChargeAmountForServices = BigDecimal.ZERO;
+		// BigDecimal totalTaxAmountForServices = BigDecimal.ZERO;
+		// BigDecimal invoiceAmount = BigDecimal.ZERO;
 		// LocalDate invoiceDate = new LocalDate();
-		//BigDecimal netChargeAmount = command.getPrice();
-		//BigDecimal taxAmount = null;
-		//BigDecimal totalTaxAmount = BigDecimal.ZERO;
+		// for(BillingOrderCommand billingOrderCommand : billingOrderCommands){
+		// if(billingOrderCommand.getClientOrderId()== orderId){
+		// // our main logic goes here
+		// totalChargeAmountForServices =
+		// billingOrderCommand.getPrice().add(totalChargeAmountForServices);
+		// BigDecimal netTaxForService = BigDecimal.ZERO;
+		// List<InvoiceTax> listOfTaxes = billingOrderCommand.getListOfTax();
+		// for(InvoiceTax invoiceTax : listOfTaxes){
+		// netTaxForService = invoiceTax.getTaxAmount().add(netTaxForService);
+		// }
+		// totalTaxAmountForServices =
+		// totalTaxAmountForServices.add(netTaxForService);
+		// }
+		// }
+		// invoiceAmount =
+		// totalChargeAmountForServices.add(totalTaxAmountForServices);
+		// InvoiceCommand invoiceCommand = new
+		// InvoiceCommand(billingOrderCommands.get(0).getClientId(),
+		// invoiceDate.toDate(),
+		// invoiceAmount, totalChargeAmountForServices,
+		// totalTaxAmountForServices, "active", null,
+		// null, null, null);
+		//
+		// invoiceCommands.add(invoiceCommand);
+		// }
+		// return invoiceCommands;
 
-//		if (tax.size() != 0) {
-//			for (InvoiceTax invoiceTax : tax) {
-//				taxAmount = invoiceTax.getTaxAmount();
-//				totalTaxAmount = taxAmount.add(totalTaxAmount);
-//			}
-//		}
+		// for(BillingOrderCommand billingOrderCommand : billingOrderCommands){
+		// totalChargeAmountForServices =
+		// billingOrderCommand.getPrice().add(totalChargeAmountForServices);
+		// BigDecimal netTaxForService = BigDecimal.ZERO;
+		// List<InvoiceTax> listOfTaxes = billingOrderCommand.getListOfTax();
+		// for(InvoiceTax invoiceTax : listOfTaxes){
+		// netTaxForService = invoiceTax.getTaxAmount().add(netTaxForService);
+		// }
+		// totalTaxAmountForServices =
+		// totalTaxAmountForServices.add(netTaxForService);
+		//
+		// }
+		//
+		// invoiceAmount =
+		// totalChargeAmountForServices.add(totalTaxAmountForServices);
 
-//		BigDecimal invoiceAmount = totalChargeAmount.add(totalTaxAmount);
-//		return new InvoiceCommand(billingOrderCommands.get(0).getClientId(), invoiceDate.toDate(),
-//				invoiceAmount, totalChargeAmountForServices, totalTaxAmountForServices, "active", null,
-//				null, null, null);
+		// for(BillingOrder billingOrder : listOfBillingOrders){
+		// BigDecimal netChargeAmount = billingOrder.getChargeAmount();
+		// BigDecimal netTaxAmount = BigDecimal.ZERO;
+		// for(List<InvoiceTax> tax : listOfListOfTaxes){
+		// BigDecimal taxAmount = BigDecimal.ZERO;
+		// if (tax.size() != 0) {
+		// for (InvoiceTax invoiceTax : tax) {
+		// taxAmount = invoiceTax.getTaxAmount();
+		// netTaxAmount = taxAmount.add(netTaxAmount);
+		// }
+		// }
+		// }
+		// totalTaxAmount = netTaxAmount.add(totalTaxAmount);
+		// totalChargeAmount = netChargeAmount.add(totalChargeAmount);
+		//
+		// }
+		// LocalDate invoiceDate = new LocalDate();
+		// BigDecimal netChargeAmount = command.getPrice();
+		// BigDecimal taxAmount = null;
+		// BigDecimal totalTaxAmount = BigDecimal.ZERO;
+
+		// if (tax.size() != 0) {
+		// for (InvoiceTax invoiceTax : tax) {
+		// taxAmount = invoiceTax.getTaxAmount();
+		// totalTaxAmount = taxAmount.add(totalTaxAmount);
+		// }
+		// }
+
+		// BigDecimal invoiceAmount = totalChargeAmount.add(totalTaxAmount);
+		// return new InvoiceCommand(billingOrderCommands.get(0).getClientId(),
+		// invoiceDate.toDate(),
+		// invoiceAmount, totalChargeAmountForServices,
+		// totalTaxAmountForServices, "active", null,
+		// null, null, null);
 	}
 }

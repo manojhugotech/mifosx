@@ -1,13 +1,10 @@
 package org.mifosplatform.portfolio.payment.service;
 
-import java.util.List;
-
 import org.mifosplatform.infrastructure.core.data.CommandProcessingResult;
 import org.mifosplatform.infrastructure.security.service.PlatformSecurityContext;
 import org.mifosplatform.portfolio.adjustment.domain.ClientBalance;
 import org.mifosplatform.portfolio.adjustment.domain.ClientBalanceRepository;
 import org.mifosplatform.portfolio.adjustment.service.UpdateClientBalance;
-import org.mifosplatform.portfolio.clientbalance.data.ClientBalanceData;
 import org.mifosplatform.portfolio.payment.command.Paymentcommand;
 import org.mifosplatform.portfolio.payment.domain.Payment;
 import org.mifosplatform.portfolio.payment.domain.PaymentRepository;
@@ -46,10 +43,10 @@ public class PaymentWritePlatformServiceImpl implements
 			this.context.authenticatedUser();
 			PaymentValidator validator = new PaymentValidator(command);
 			validator.validateForCreate();
-			Payment data = new Payment(clientId, command.getPayment_id(),
-					command.getExternalId(), command.getAmount_paid(),
-					command.getStatement_id(), command.getPayment_date(),
-					command.getRemarks(), command.getPayment_code());
+			Payment data = new Payment(clientId, command.getPaymentId(),
+					command.getExternalId(), command.getAmountPaid(),
+					command.getStatementId(), command.getPaymentDate(),
+					command.getRemarks(), command.getPaymentCode());
 
 			this.paymentRepository.save(data);
 
@@ -60,10 +57,10 @@ public class PaymentWritePlatformServiceImpl implements
 
 			if(clientBalance == null){
 
-				clientBalance = updateClientBalance.createClientBalance("CREDIT",command.getAmount_paid(),clientId,clientBalance);
+				clientBalance = updateClientBalance.createClientBalance("CREDIT",command.getAmountPaid(),clientId,clientBalance);
 			}else if(clientBalance != null){
 
-				clientBalance = updateClientBalance.doUpdateClientBalance("CREDIT",command.getAmount_paid(),clientId,clientBalance);
+				clientBalance = updateClientBalance.doUpdateClientBalance("CREDIT",command.getAmountPaid(),clientId,clientBalance);
 
 			}
 

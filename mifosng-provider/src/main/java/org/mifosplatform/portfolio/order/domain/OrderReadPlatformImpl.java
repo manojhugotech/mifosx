@@ -80,7 +80,7 @@ public class OrderReadPlatformImpl {
 			public String schema() {
 				return "da.id as id, se.id as serviceId,da.service_code as service_code, da.charge_code as charge_code,da.charging_variant as charging_variant,"
         +" c.charge_type as charge_type,c.charge_duration as charge_duration,c.duration_type as duration_type,"
-						+"da.price as price from plan_pricing da,charge_codes c,service se where da.charge_code = c.charge_code and da.service_code=se.service_code";
+						+"da.price as price from plan_pricing da,charge_codes c,service se where da.charge_code = c.charge_code and da.service_code=se.service_code and da.is_deleted='n' ";
 
 			}
 

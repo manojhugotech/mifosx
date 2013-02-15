@@ -19,6 +19,7 @@ import org.mifosplatform.portfolio.servicemaster.data.SericeMasterOptionsData;
 import org.mifosplatform.portfolio.subscription.data.SubscriptionData;
 import org.mifosplatform.portfolio.taxmaster.data.TaxMappingRateOptionsData;
 import org.mifosplatform.portfolio.taxmaster.data.TaxMasterDataOptions;
+import org.mifosplatform.portfolio.ticketmaster.data.TicketMasterData;
 
 public interface PortfolioApiJsonBillingSerializerService {
 
@@ -72,6 +73,8 @@ String serializePricingDataToJson(boolean prettyPrint,Set<String> responseParame
 
 
 String serializeServiceDataToJson(boolean prettyPrint,	Set<String> responseParameters, SericeMasterOptionsData productData);
+
+String serializeTicketMasterToJson(boolean prettyPrint,	Set<String> responseParameters, TicketMasterData templateData);
 
 
 

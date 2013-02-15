@@ -22,6 +22,7 @@ import org.mifosplatform.portfolio.servicemaster.data.SericeMasterOptionsData;
 import org.mifosplatform.portfolio.subscription.data.SubscriptionData;
 import org.mifosplatform.portfolio.taxmaster.data.TaxMappingRateOptionsData;
 import org.mifosplatform.portfolio.taxmaster.data.TaxMasterDataOptions;
+import org.mifosplatform.portfolio.ticketmaster.data.TicketMasterData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -68,7 +69,8 @@ public class GoogleGsonPortfolioApiJsonBillingSerializerService implements Portf
 	private static final Set<String> TAX_MASTER_DATA_PARAMETERS_TEMPLETE=new HashSet<String>(Arrays.asList("id","taxType","taxMasterOptions"));
 	private static final Set<String> TRANSACTIONAL_DATA_PARAMETERS_TEMPLETE=new HashSet<String>(Arrays.asList("transactionId","transactionDate","transactionType","amount","billDate","dueDate","id"));
 	private static final Set<String> TAX_MAPPING_RATE_DATA_PARAMETERS_TEMPLETE=new HashSet<String>(Arrays.asList("id","taxCode","taxMasterOptions"));
-
+	
+	private static final Set<String> TICKET_MASTER_DATA_PARAMETERS_TEMPLETE=new HashSet<String>(Arrays.asList("statusType","priorityType","problemsDatas"));
 	    private final GoogleGsonSerializerHelper helper;
 
 	    @Autowired
@@ -272,6 +274,16 @@ public class GoogleGsonPortfolioApiJsonBillingSerializerService implements Portf
 		 final Gson gsonDeserializer = helper.createGsonBuilderWithParameterExclusionSerializationStrategy(SERVICE_MASTER_DATA_PARAMETERS_TEMPLETE,
 	                prettyPrint, responseParameters);
 	        return helper.serializedJsonFrom(gsonDeserializer, productData);
+	}
+
+
+
+	@Override
+	public String serializeTicketMasterToJson(boolean prettyPrint,
+			Set<String> responseParameters, TicketMasterData templateData) {
+		 final Gson gsonDeserializer = helper.createGsonBuilderWithParameterExclusionSerializationStrategy(TICKET_MASTER_DATA_PARAMETERS_TEMPLETE,
+	                prettyPrint, responseParameters);
+	        return helper.serializedJsonFrom(gsonDeserializer, templateData);
 	}
 
 

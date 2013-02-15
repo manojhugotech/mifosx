@@ -8,27 +8,27 @@ import org.joda.time.LocalDate;
 public class Paymentcommand {
 
 	private final Long clientId;
-	private final Long payment_id;
+	private final Long paymentId;
 	private final Long externalId;
-	private final Long statement_id;
-	private final String payment_code;
+	private final Long statementId;
+	private final String paymentCode;
 	private final String remarks;
-	private final BigDecimal amount_paid;
-	private final LocalDate payment_date;
+	private final BigDecimal amountPaid;
+	private final LocalDate paymentDate;
 
 
-public Paymentcommand(final Long clientId,final Long payment_id,final Long externalId,final Long statement_id,final String payment_code,
-		final String remarks, final BigDecimal amount_paid,final LocalDate payment_date )
+public Paymentcommand(final Long clientId,final Long paymentId,final Long externalId,final Long statementId,final String paymentCode,
+		final String remarks, final BigDecimal amountPaid,final LocalDate paymentDate )
 
 {
 	this.clientId=clientId;
-	this.payment_id=payment_id;
+	this.paymentId=paymentId;
 	this.externalId=externalId;
-	this.statement_id=statement_id;
-	this.payment_code=payment_code;
+	this.statementId=statementId;
+	this.paymentCode=paymentCode;
 	this.remarks=remarks;
-	this.amount_paid=amount_paid;
-	this.payment_date=payment_date;
+	this.amountPaid=amountPaid;
+	this.paymentDate=paymentDate;
 }
 
 
@@ -37,8 +37,8 @@ public Long getClientId() {
 }
 
 
-public Long getPayment_id() {
-	return payment_id;
+public Long getPaymentId() {
+	return paymentId;
 }
 
 
@@ -47,13 +47,13 @@ public Long getExternalId() {
 }
 
 
-public Long getStatement_id() {
-	return statement_id;
+public Long getStatementId() {
+	return statementId;
 }
 
 
-public String getPayment_code() {
-	return payment_code;
+public String getPaymentCode() {
+	return paymentCode;
 }
 
 
@@ -64,15 +64,15 @@ public String getRemarks() {
 }
 
 
-public BigDecimal getAmount_paid() {
-	return amount_paid;
+public BigDecimal getAmountPaid() {
+	return amountPaid;
 }
 
 
 
 
-public LocalDate getPayment_date() {
-	return payment_date;
+public LocalDate getPaymentDate() {
+	return paymentDate;
 }
 
 

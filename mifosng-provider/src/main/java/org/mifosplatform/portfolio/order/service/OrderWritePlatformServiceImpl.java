@@ -20,11 +20,11 @@ import org.mifosplatform.portfolio.order.domain.OrderPriceRepository;
 import org.mifosplatform.portfolio.order.domain.OrderReadPlatformImpl;
 import org.mifosplatform.portfolio.order.domain.OrderRepository;
 import org.mifosplatform.portfolio.plan.data.ServiceData;
+import org.mifosplatform.portfolio.plan.domain.Plan;
+import org.mifosplatform.portfolio.plan.domain.PlanRepository;
+import org.mifosplatform.portfolio.plan.domain.ServiceDetailsRepository;
 import org.mifosplatform.portfolio.pricing.data.PriceData;
 import org.mifosplatform.portfolio.pricing.domain.PriceRepository;
-import org.mifosplatform.portfolio.savingplan.domain.Plan;
-import org.mifosplatform.portfolio.savingplan.domain.PlanRepository;
-import org.mifosplatform.portfolio.savingplan.domain.ServiceDetailsRepository;
 import org.mifosplatform.portfolio.subscription.domain.Subscription;
 import org.mifosplatform.portfolio.subscription.domain.SubscriptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,23 +93,23 @@ public class OrderWritePlatformServiceImpl implements OrderWritePlatformService 
 			Subscription subscriptionData = this.subscriptionRepository
 					.findOne(command.getContractPeriod());
 
-			if (subscriptionData.getSubscription_type().equalsIgnoreCase(
+			if (subscriptionData.getSubscriptionType().equalsIgnoreCase(
 					"DAY(s)")) {
 				endDate = command.getStartDate().plusDays(
 						subscriptionData.getUnits().intValue() - 1);
 
-			} else if (subscriptionData.getSubscription_type()
+			} else if (subscriptionData.getSubscriptionType()
 					.equalsIgnoreCase("MONTH(s)")) {
 				endDate = command.getStartDate()
 						.plusMonths(subscriptionData.getUnits().intValue())
 						.minusDays(1);
 
-			} else if (subscriptionData.getSubscription_type()
+			} else if (subscriptionData.getSubscriptionType()
 					.equalsIgnoreCase("YEAR(s)")) {
 				endDate = command.getStartDate()
 						.plusYears(subscriptionData.getUnits().intValue())
 						.minusDays(1);
-			} else if (subscriptionData.getSubscription_type()
+			} else if (subscriptionData.getSubscriptionType()
 					.equalsIgnoreCase("WEEK(s)")) {
 
 				endDate = command.getStartDate()
@@ -117,7 +117,7 @@ public class OrderWritePlatformServiceImpl implements OrderWritePlatformService 
 						.minusDays(1);
 			}
 
-			else if (subscriptionData.getSubscription_type().equalsIgnoreCase(
+			else if (subscriptionData.getSubscriptionType().equalsIgnoreCase(
 					"HOUR(s)")) {
 
 				DateTime startDate = command.getStartDate().toDateTime(null,
@@ -138,14 +138,16 @@ public class OrderWritePlatformServiceImpl implements OrderWritePlatformService 
 
 				Date billstartDate = command.getStartDate().toDate();
 				Date billEndDate = null;
+				// end date is null for rc
 				if (data.getChagreType().equalsIgnoreCase("RC")
 						&& endDate != null) {
 					billEndDate = endDate.toDate();
 
-				} else {
+				} else if(data.getChagreType().equalsIgnoreCase("NRC")) 			{
 
 					billEndDate = billstartDate;
 				}
+
 
 				OrderPrice price = new OrderPrice(data.getServiceId(),
 						data.getChargeCode(), data.getCharging_variant(),
@@ -199,6 +201,11 @@ public class OrderWritePlatformServiceImpl implements OrderWritePlatformService 
 			Order order = this.orderRepository.findOne(orderId);
 			// OrderPrice orderPrice=order.getPrice();
 			List<OrderLine> orderline = order.getServices();
+			List<OrderPrice> orderPrices=order.getPrice();
+			
+			for(OrderPrice orderPrice:orderPrices){
+				orderPrice.delete();
+			}
 
 			for (OrderLine orderData : orderline) {
 				orderData.delete();
@@ -232,7 +239,14 @@ public class OrderWritePlatformServiceImpl implements OrderWritePlatformService 
 			// throw new ProductNotFoundException(order.getId());
 			// }
 
+			List<OrderPrice> orderPrices=order.getPrice();
+			for(OrderPrice price:orderPrices){
+				
+				price.updateDates(new LocalDate());
+			}
+			
 			order.update(currentDate);
+			
 			this.orderRepository.save(order);
 			return new CommandProcessingResult(Long.valueOf(order.getId()));
 		} catch (DataIntegrityViolationException dve) {

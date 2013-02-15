@@ -1,8 +1,8 @@
 package org.mifosplatform.portfolio.services.api;
 import org.mifosplatform.infrastructure.core.data.CommandProcessingResult;
 import org.mifosplatform.infrastructure.security.service.PlatformSecurityContext;
-import org.mifosplatform.portfolio.savingplan.domain.ServiceRepository;
-import org.mifosplatform.portfolio.savingplan.domain.ServiceType;
+import org.mifosplatform.portfolio.plan.domain.ServiceRepository;
+import org.mifosplatform.portfolio.plan.domain.ServiceType;
 import org.mifosplatform.portfolio.servicemaster.commands.ServicesCommand;
 import org.mifosplatform.portfolio.services.service.ServiceWritePlatformService;
 import org.springframework.beans.factory.annotation.Autowired;

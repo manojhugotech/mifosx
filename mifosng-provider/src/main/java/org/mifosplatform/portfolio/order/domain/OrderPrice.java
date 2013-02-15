@@ -14,6 +14,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.joda.time.LocalDate;
+
 @Entity
 @Table(name = "order_price")
 public class OrderPrice {
@@ -46,12 +48,15 @@ public class OrderPrice {
 
 	@Column(name = "bill_start_date")
 	private Date billStartDate;
+	
+	@Column(name = "next_billable_day")
+	private Date nextBillableDay;
 
 	@Column(name = "bill_end_date")
 	private Date billEndDate;
 
 	@Column(name = "is_deleted")
-	private boolean isDeleted;
+	private char isDeleted;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "order_id", insertable = true, updatable = true, nullable = true, unique = true)
@@ -131,6 +136,13 @@ public class OrderPrice {
 	public Long getServiceId() {
 		return serviceId;
 	}
+	
+	
+
+	public void updateDates(LocalDate date) {
+		this.billEndDate =date.toDate();
+		//this.nextBillableDay=date.plusDays(1).toDate();
+	}
 
 	public String getChargeCode() {
 		return chargeCode;
@@ -160,7 +172,7 @@ public class OrderPrice {
 		this.invoiceTillDate = invoiceTillDate;
 	}
 
-	public boolean isIsDeleted() {
+	public char isIsDeleted() {
 		return isDeleted;
 	}
 
@@ -174,7 +186,7 @@ public class OrderPrice {
 	}
 
 	public void delete() {
-		this.isDeleted = true;
+		this.isDeleted = 'y';
 
 	}
 
@@ -196,6 +208,11 @@ public class OrderPrice {
 
 	public Order getOrders() {
 		return orders;
+	}
+
+	public void setNextBillableDay(Date nextBillableDate) {
+		 this.nextBillableDay=nextBillableDate;
+		
 	}
 
 

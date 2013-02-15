@@ -8,7 +8,7 @@ public class BillingOrderNoRecordsFoundException extends AbstractPlatformDomainR
     public BillingOrderNoRecordsFoundException() {
         super("error.msg.billing.order.not.found", " Billing order not found ");
     }
-
+    
     public BillingOrderNoRecordsFoundException(String msg) {
         super("error.msg.no.bills.to.generate", " No Bills TO Generate ", msg);
     }

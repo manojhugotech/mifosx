@@ -1,4 +1,4 @@
-package org.mifosplatform.portfolioadjustment.service;
+package org.mifosplatform.portfolio.adjustment.service;
 
 import java.util.List;
 

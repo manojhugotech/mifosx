@@ -38,6 +38,7 @@ import org.mifosplatform.portfolio.servicemaster.commands.ServicesCommand;
 import org.mifosplatform.portfolio.subscription.commands.SubscriptionCommand;
 import org.mifosplatform.portfolio.taxmaster.commands.TaxMappingRateCommand;
 import org.mifosplatform.portfolio.taxmaster.commands.TaxMasterCommand;
+import org.mifosplatform.portfolio.ticketmaster.command.TicketMasterCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.number.NumberFormatter;
 import org.springframework.stereotype.Service;
@@ -1077,5 +1078,33 @@ Set<String> modifiedParameters = new HashSet<String>();
 	        String message = extractStringParameter("message", requestMap, modifiedParameters);
 
 	        return new BillMasterCommand(dueDate, message);
+	}
+
+	@Override
+	public TicketMasterCommand convertJsonToTicketMasterCommand(Object object,
+			String jsonRequestBody) {
+		  if (StringUtils.isBlank(jsonRequestBody)) { throw new InvalidJsonException(); }
+
+	        Type typeOfMap = new TypeToken<Map<String, String>>() {}.getType();
+	        Map<String, String> requestMap = gsonConverter.fromJson(jsonRequestBody, typeOfMap);
+
+	        // preClosureInterestRate
+	        Set<String> supportedParams = new HashSet<String>(Arrays.asList("locale","dateFormat","clientId","priority","ticketDate","problemCode",
+	    	"description","status","resolutionDescription","assignedTo"));
+	        checkForUnsupportedParameters(requestMap, supportedParams);
+	        Set<String> modifiedParameters = new HashSet<String>();
+
+	        Long clientId = extractLongParameter("clientId", requestMap, modifiedParameters);
+	        String priority = extractStringParameter("priority", requestMap, modifiedParameters);
+	        String status = extractStringParameter("status", requestMap, modifiedParameters);
+	        String problemCode = extractStringParameter("problemCode", requestMap, modifiedParameters);
+	        String description = extractStringParameter("description", requestMap, modifiedParameters);
+	        String resolutionDescription = extractStringParameter("resolutionDescription", requestMap, modifiedParameters);
+	        String assignedTo = extractStringParameter("assignedTo", requestMap, modifiedParameters);
+	        LocalDate ticketDate = extractLocalDateParameter("ticketDate", requestMap, modifiedParameters);
+
+
+	        return new TicketMasterCommand(clientId,priority, description, problemCode, status,
+	        		resolutionDescription, assignedTo,ticketDate);
 	}
 }

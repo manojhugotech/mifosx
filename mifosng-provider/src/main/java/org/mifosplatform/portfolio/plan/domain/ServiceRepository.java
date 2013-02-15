@@ -1,4 +1,4 @@
-package org.mifosplatform.portfolio.savingplan.domain;
+package org.mifosplatform.portfolio.plan.domain;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;

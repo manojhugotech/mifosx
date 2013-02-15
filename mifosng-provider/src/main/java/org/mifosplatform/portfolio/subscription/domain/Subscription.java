@@ -12,66 +12,54 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 public class Subscription extends AbstractPersistable<Long> {
 
 	@Column(name = "contract_period", nullable = false)
-	private String subscription_period;
+	private String subscriptionPeriod;
 
 	@Column(name = "is_deleted", nullable = false)
-	private boolean deleted=false;
+	private boolean deleted = false;
 
 	@Column(name = "contract_type", length = 100)
-	private String subscription_type;
+	private String subscriptionType;
 
 	@Column(name = "contract_duration")
 	private Long units;
 
-		public Subscription() {
+	public Subscription() {
 	}
 
 	public Subscription(final String subscriptionPeriod, final Long units,
 			final String subscriptionType, final Long subscriptionTypeId) {
 
-       this.subscription_period=subscriptionPeriod;
-		this.subscription_type = subscriptionType;
+		this.subscriptionPeriod = subscriptionPeriod;
+		this.subscriptionType = subscriptionType;
 		this.units = units;
 
-
-
 	}
 
-
-
-	public String getSubscription_period() {
-		return subscription_period;
+	public String getSubscriptionPeriod() {
+		return subscriptionPeriod;
 	}
 
-
-
-	public String getSubscription_type() {
-		return subscription_type;
+	public String getSubscriptionType() {
+		return subscriptionType;
 	}
-
-
 
 	public Long getUnits() {
 		return units;
 	}
 
-
-
 	public void update(SubscriptionCommand command, String type) {
 
 		if (command.issubscriptionPeriodChanged()) {
-			this.subscription_period = command.getSubscription_period();
+			this.subscriptionPeriod = command.getSubscription_period();
 		}
 
 		if (command.isUnitsChanged()) {
 			this.units = command.getUnits();
 		}
 
-
 		if (command.isSubscriptionTypeIdChanged()) {
 
-
-			this.subscription_type = type;
+			this.subscriptionType = type;
 		}
 		if (command.isDayNameChanged()) {
 

@@ -30,11 +30,10 @@ import org.mifosplatform.portfolio.billingproduct.PortfolioApiJsonBillingSeriali
 import org.mifosplatform.portfolio.plan.commands.PlansCommand;
 import org.mifosplatform.portfolio.plan.data.PlanData;
 import org.mifosplatform.portfolio.plan.data.ServiceData;
+import org.mifosplatform.portfolio.plan.domain.PlanRepository;
 import org.mifosplatform.portfolio.plan.service.PlanReadPlatformService;
 import org.mifosplatform.portfolio.plan.service.PlanWritePlatformService;
 import org.mifosplatform.portfolio.pricing.service.PriceReadPlatformService;
-import org.mifosplatform.portfolio.savingplan.domain.Plan;
-import org.mifosplatform.portfolio.savingplan.domain.PlanRepository;
 import org.mifosplatform.portfolio.subscription.data.SubscriptionData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;

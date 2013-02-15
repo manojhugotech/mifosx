@@ -22,8 +22,9 @@ public class BillingOrderCommand {
 	private final Date invoiceTillDate;
 	private final BigDecimal price;
 	private final String billingAlign;
-	private final String oneTimeBill;
 	private final List<InvoiceTax> listOfTax;
+	private final Date billStartDate;
+	private  Date billEndDate;
 
 
 
@@ -31,7 +32,7 @@ public class BillingOrderCommand {
 			Long clientId, Date startDate, Date nextBillableDate, Date endDate,
 			String billingFrequency, String chargeCode, String chargeType,
 			Integer chargeDuration,String durationType, Date invoiceTillDate, BigDecimal price,
-			String billingAlign, String oneTimeBill,final List<InvoiceTax> listOfTax) {
+			String billingAlign,final List<InvoiceTax> listOfTax,final Date billStartDate,final Date billEndDate) {
 		this.clientOrderId = clientOrderId;
 		this.orderPriceId = oderPriceId;
 		this.clientId = clientId;
@@ -46,7 +47,8 @@ public class BillingOrderCommand {
 		this.invoiceTillDate = invoiceTillDate;
 		this.price = price;
 		this.billingAlign = billingAlign;
-		this.oneTimeBill = oneTimeBill;
+		this.billStartDate = billStartDate;
+		this.billEndDate = billEndDate;
 		this.listOfTax =listOfTax;
 	}
 
@@ -106,13 +108,22 @@ public class BillingOrderCommand {
 		return orderPriceId;
 	}
 
-	public String getOneTimeBill() {
-		return oneTimeBill;
-	}
-
 	public List<InvoiceTax> getListOfTax() {
 		return listOfTax;
 	}
 
+	public Date getBillStartDate() {
+		return billStartDate;
+	}
 
+	public Date getBillEndDate() {
+		return billEndDate;
+	}
+
+	public void setBillEndDate(Date billEndDate) {
+		this.billEndDate = billEndDate;
+	}
+	
+	
+	
 }

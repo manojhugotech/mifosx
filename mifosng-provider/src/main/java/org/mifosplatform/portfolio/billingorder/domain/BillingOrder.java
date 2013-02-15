@@ -48,7 +48,7 @@ public class BillingOrder  extends AbstractPersistable<Long>{
 
 	@Column(name = "invoice_id")
 	private Long invoiceId;
-
+	
 	@Column(name="bill_id")
 	private Long billId;
 
@@ -174,7 +174,7 @@ public class BillingOrder  extends AbstractPersistable<Long>{
 
 	public void updateBillId(Long billId) {
 		this.billId=billId;
-
+		
 	}
 
 }

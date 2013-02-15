@@ -22,7 +22,6 @@ public class PlansCommand {
 		private final Long bill_rule;
 
 		public PlansCommand(final Set<String> modifiedParameters,
-
 				final String plan_code,final String plan_description,final LocalDate startDate,
 				final LocalDate endDate,final Long status,String[] services,
 				final Long bill_rule,final String charge_code,final String contractPeriod) {

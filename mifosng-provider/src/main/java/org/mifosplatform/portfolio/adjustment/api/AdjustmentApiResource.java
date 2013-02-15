@@ -1,4 +1,4 @@
-package org.mifosplatform.portfolio.adjustments.api;
+package org.mifosplatform.portfolio.adjustment.api;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,11 +24,11 @@ import org.mifosplatform.portfolio.adjustment.data.AdjustmentCodeData;
 import org.mifosplatform.portfolio.adjustment.data.AdjustmentData;
 import org.mifosplatform.portfolio.adjustment.service.AdjustmentReadPlatformService;
 import org.mifosplatform.portfolio.adjustment.service.AdjustmentWritePlatformService;
+import org.mifosplatform.portfolio.adjustment.service.ClientBalanceReadPlatformService;
 import org.mifosplatform.portfolio.billingproduct.PortfolioApiDataBillingConversionService;
 import org.mifosplatform.portfolio.billingproduct.PortfolioApiJsonBillingSerializerService;
 import org.mifosplatform.portfolio.clientbalance.data.ClientBalanceData;
 import org.mifosplatform.portfolio.discountmaster.commands.Discount;
-import org.mifosplatform.portfolioadjustment.service.ClientBalanceReadPlatformService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

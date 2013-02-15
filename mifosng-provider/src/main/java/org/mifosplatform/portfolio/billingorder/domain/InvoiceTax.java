@@ -34,7 +34,7 @@ public class InvoiceTax {
 
 	@Column(name = "tax_amount")
 	private BigDecimal taxAmount;
-
+	
 	@Column(name = "bill_id")
 	private Long billId;
 
@@ -112,7 +112,7 @@ public class InvoiceTax {
 
 	public void updateBillId(Long billId) {
 		this.billId=billId;
-
+		
 	}
 
 }

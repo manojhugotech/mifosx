@@ -1,5 +1,6 @@
 package org.mifosplatform.portfolio.billingorder.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.joda.time.LocalDate;
@@ -9,13 +10,14 @@ import org.mifosplatform.portfolio.taxmaster.data.TaxMappingRateData;
 
 public interface BillingOrderReadPlatformService {
 
-	List<Long> retrieveOrderIds(Long clientId);
-
+	
 	List<TaxMappingRateData> retrieveTaxMappingDate(String chargeCode);
 
 	List<OrderPriceData> retrieveInvoiceTillDate(Long clientOrderId);
 
 	List<BillingOrderData> retrieveBillingOrderData(Long clientId,LocalDate localDate, Long planId);
+
+	List<Long> retrieveOrderIds(Long clientId, Date processDate);
 
 
 

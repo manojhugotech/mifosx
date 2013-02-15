@@ -1,4 +1,4 @@
-package org.mifosplatform.portfolio.payments.api;
+package org.mifosplatform.portfolio.payment.api;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -19,8 +19,8 @@ import javax.ws.rs.core.UriInfo;
 
 import org.mifosplatform.infrastructure.core.api.ApiParameterHelper;
 import org.mifosplatform.infrastructure.core.data.CommandProcessingResult;
-import org.mifosplatform.infrastructure.core.data.EnumOptionData;
 import org.mifosplatform.infrastructure.security.service.PlatformSecurityContext;
+import org.mifosplatform.portfolio.adjustment.service.ClientBalanceReadPlatformService;
 import org.mifosplatform.portfolio.billingproduct.PortfolioApiDataBillingConversionService;
 import org.mifosplatform.portfolio.billingproduct.PortfolioApiJsonBillingSerializerService;
 import org.mifosplatform.portfolio.clientbalance.data.ClientBalanceData;
@@ -31,7 +31,6 @@ import org.mifosplatform.portfolio.payment.service.PaymentWritePlatformService;
 import org.mifosplatform.portfolio.paymodes.data.PaymodeData;
 import org.mifosplatform.portfolio.paymodes.data.PaymodeTypesData;
 import org.mifosplatform.portfolio.paymodes.service.PaymodeReadPlatformService;
-import org.mifosplatform.portfolioadjustment.service.ClientBalanceReadPlatformService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

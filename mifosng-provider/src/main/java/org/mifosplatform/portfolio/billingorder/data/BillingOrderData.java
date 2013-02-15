@@ -21,7 +21,9 @@ public class BillingOrderData {
 	private Date invoiceTillDate;
 	private BigDecimal price;
 	private String billingAlign;
-	private String oneTimeBill;
+	private Date billStartDate;
+	private Date billEndDate;
+	private Long orderstatus;
 
 
 
@@ -29,7 +31,7 @@ public class BillingOrderData {
 			final Date nextBillableDate,final Date endDate,final String billingFrequency,
 			final String chargeCode,final String chargeType,final Integer chargeDuration,
 			final String durationType,final Date invoiceTillDate,final BigDecimal price,
-			final String billingAlign,final String oneTimeBill ) {
+			final String billingAlign,final Date billStartDate,final Date billEndDate,final Long orderstatus) {
 		this.clientOrderId = clientOrderId;
 		this.OderPriceId = OderPriceId;
 		this.planId = planId;
@@ -45,7 +47,9 @@ public class BillingOrderData {
 		this.invoiceTillDate = invoiceTillDate;
 		this.price = price;
 		this.billingAlign = billingAlign;
-		this.oneTimeBill = oneTimeBill;
+		this.billStartDate = billStartDate;
+		this.billEndDate = billEndDate;
+		this.orderstatus=orderstatus;
 
 	}
 
@@ -138,13 +142,7 @@ public class BillingOrderData {
 		OderPriceId = oderPriceId;
 	}
 
-	public String getOneTimeBill() {
-		return oneTimeBill;
-	}
 
-	public void setOneTimeBill(String oneTimeBill) {
-		this.oneTimeBill = oneTimeBill;
-	}
 
 	public Long getPlanId() {
 		return planId;
@@ -153,5 +151,27 @@ public class BillingOrderData {
 	public void setPlanId(Long planId) {
 		this.planId = planId;
 	}
+
+	public Date getBillStartDate() {
+		return billStartDate;
+	}
+
+	public void setBillStartDate(Date billStartDate) {
+		this.billStartDate = billStartDate;
+	}
+
+	public Date getBillEndDate() {
+		return billEndDate;
+	}
+
+	public void setBillEndDate(Date billEndDate) {
+		this.billEndDate = billEndDate;
+	}
+
+	public Long getOrderStatus() {
+		return orderstatus;
+	}
+	
+	
 
 }

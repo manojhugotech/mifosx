@@ -51,6 +51,7 @@ public class BillingOrderReadPlatformServiceImplementation implements
 		@Override
 		public BillingOrderData mapRow(ResultSet resultSet,
 				@SuppressWarnings("unused") int rowNum) throws SQLException {
+			
 			Long clientOderId = resultSet.getLong("clientOrderId");
 			Long orderPriceId = resultSet.getLong("orderPriceId");
 			Long planId = resultSet.getLong("planId");
@@ -66,19 +67,24 @@ public class BillingOrderReadPlatformServiceImplementation implements
 			Date invoiceTillDate = resultSet.getDate("invoiceTillDate");
 			BigDecimal price = resultSet.getBigDecimal("price");
 			String billingAlign = resultSet.getString("billingAlign");
+			Date billStartDate = resultSet.getDate("billStartDate");
+			Date billEndDate = resultSet.getDate("billEndDate");
+			Long orderStatus = resultSet.getLong("orderStatus");
 			return new BillingOrderData(clientOderId,orderPriceId,planId, clientId, startDate,
 					nextBillableDate, endDate, billingFrequency, chargeCode,
 					chargeType, chargeDuration, durationType, invoiceTillDate,
-					price, billingAlign, billingAlign);
+					price, billingAlign,billStartDate,billEndDate,orderStatus);
 		}
 
 		public String billingOrderSchema() {
 
-			return " co.id as clientOrderId,op.id AS orderPriceId,co.plan_id as planId,co.client_id AS clientId,co.start_date AS startDate,IFNULL(co.next_billable_day, co.start_date) AS nextBillableDate,"
+			return " co.id as clientOrderId,op.id AS orderPriceId,co.plan_id as planId,co.client_id AS clientId,co.start_date AS startDate,IFNULL(op.next_billable_day, co.start_date) AS nextBillableDate,"
 					+ "co.end_date AS endDate,co.billing_frequency AS billingFrequency,op.charge_code AS chargeCode,op.charge_type AS chargeType,"
-					+ "op.charge_duration AS chargeDuration,op.duration_type AS durationType,op.invoice_tilldate AS invoiceTillDate,op.price AS price,"
-					+ "co.billing_align AS billingAlign FROM orders co left JOIN order_price op ON co.id = op.order_id"
-					+ " WHERE co.client_id = ? AND co.id = ? AND Date_format(IFNULL(op.invoice_tilldate,now() ),'%Y-%m-%d') <= ? ";
+					+ "op.charge_duration AS chargeDuration,op.duration_type AS durationType,op.invoice_tilldate AS invoiceTillDate,op.price AS price,co.order_status as orderStatus,"
+					+ "co.billing_align AS billingAlign,op.bill_start_date as billStartDate,Date_format(IFNULL(op.bill_end_date,'3099-12-31'), '%Y-%m-%d') AS billEndDate "
+					+ "FROM orders co left JOIN order_price op ON co.id = op.order_id"
+					+ " WHERE co.client_id = ? AND co.id = ? AND Date_format(IFNULL(op.invoice_tilldate,now() ),'%Y-%m-%d') <= ? "
+					+ " AND Date_format(IFNULL(op.next_billable_day, co.start_date ), '%Y-%m-%d')  <= Date_format(IFNULL(op.bill_end_date,'3099-12-31'), '%Y-%m-%d')";
 		}
 
 	}
@@ -165,14 +171,14 @@ public class BillingOrderReadPlatformServiceImplementation implements
 	}
 
 	@Override
-	public List<Long> retrieveOrderIds(Long clientId) {
+	public List<Long> retrieveOrderIds(Long clientId,Date processDate) {
 		PlanIdMapper planIdMapper = new PlanIdMapper();
 		String sql = "select" + planIdMapper.planIdSchema();
-		return this.jdbcTemplate.query(sql, planIdMapper,new Object[] { clientId });
-
+		return this.jdbcTemplate.query(sql, planIdMapper,new Object[] { clientId,processDate,processDate });
+		
 	}
-
-
+	
+	
 	private static final class PlanIdMapper implements RowMapper<Long> {
 
 		@Override
@@ -182,8 +188,9 @@ public class BillingOrderReadPlatformServiceImplementation implements
 		}
 
 		public String planIdSchema() {
-			return " id as orderId from orders where client_id = ? ";
+			return " id as orderId from orders where client_id = ? and Date_format(IFNULL(next_billable_day,?), '%Y-%m-%d') <= ? ";
 		}
-
+		
+		
 	}
 }

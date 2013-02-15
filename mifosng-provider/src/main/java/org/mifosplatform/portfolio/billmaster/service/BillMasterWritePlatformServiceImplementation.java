@@ -250,6 +250,7 @@ public class BillMasterWritePlatformServiceImplementation implements
 			cell.disableBorderSide(PdfPCell.RIGHT);
 			table.addCell(cell);
 			PdfPCell cell0 = new PdfPCell();
+			
 			Paragraph add0 = new Paragraph(""+billDetails.getClientName(),b);
 			Paragraph add1 = new Paragraph(""
 											  +billDetails.getAddrNo()+","+
