@@ -239,9 +239,11 @@ public class TicketMasterReadPlatformServiceImpl  implements TicketMasterReadPla
 					String assignedTo = rs.getString("assignedTo");
 					String description = rs.getString("description");
 					String attachments = rs.getString("attachments");
+					String fileName=null;
+					if(attachments!=null){
 					File file=new File(attachments);
-					String fileName=file.getName();
-
+					 fileName=file.getName();
+					}
 					TicketMasterData data = new TicketMasterData(id,createdDate, assignedTo,description,fileName);
 
 					return data;

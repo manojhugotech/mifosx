@@ -241,7 +241,38 @@ OrderPriceData orderPrice=this.orderReadPlatformService.retrieveOrderPriceData(o
 	        return this.apiJsonSerializerService.serializeClientOrderDataToJson(prettyPrint, responseParameters,
 	                clientAccount);
 	    }
+	 
+	 @GET
+	    @Path("{orderId}/orderprice/{clientId}")
+	    @Consumes({MediaType.APPLICATION_JSON})
+	    @Produces({MediaType.APPLICATION_JSON})
+	    public String retrieveOrderPriceDetails(@PathParam("orderId") final Long orderId, @PathParam("clientId") final Long clientId,
+	    		@Context final UriInfo uriInfo) {
 
+	        context.authenticatedUser().validateHasReadPermission("CLIENTORDER");
 
+	        final Set<String> responseParameters = ApiParameterHelper.extractFieldsForResponseIfProvided(uriInfo.getQueryParameters());
+	        final boolean prettyPrint = ApiParameterHelper.prettyPrint(uriInfo.getQueryParameters());
+
+	        final List<OrderPriceData> priceDatas = this.orderReadPlatformService.retrieveOrderPriceDetails(orderId,clientId);
+	        
+	        OrderData orderData=new OrderData(priceDatas);
+
+	        return this.apiJsonSerializerService.serializeClientOrderPriceDataToJson(prettyPrint, responseParameters,clientId,
+	        		orderData);
+	    }
+
+	 @PUT
+		@Path("{orderId}/orderprice")
+		@Consumes({ MediaType.APPLICATION_JSON })
+		@Produces({ MediaType.APPLICATION_JSON })
+		public Response updateOrderPrice(@PathParam("orderId") final Long orderId,final String jsonRequestBody
+				) {
+
+			OrdersCommand command = this.apiDataConversionService.convertJsonToOrderCommand(null,null,jsonRequestBody);
+			CommandProcessingResult entityIdentifier = this.orderWritePlatformService
+					.updateOrderPrice(orderId,command);
+			return Response.ok().entity(entityIdentifier).build();
+		}
 
 }

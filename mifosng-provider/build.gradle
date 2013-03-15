@@ -132,11 +132,19 @@ dependencies {
  	        	[group: 'pentaho-library',name: 'libserializer', version: '1.2.2'],
  	        	[group: 'pentaho-library',name: 'libsparkline', version: '1.2.1'],
  	        	[group: 'pentaho-library',name: 'libxml', version: '1.2.2'],
+				
  	        	
  	        	[group: 'org.apache.poi',name: 'poi', version: '3.6'],
  	        	[group: 'org.apache.poi',name: 'poi-ooxml', version: '3.6'],
  	        	[group: 'org.apache.poi',name: 'poi-ooxml-schemas', version: '3.6'],
-	            
+	            [group: 'net.sf.jasperreports',name: 'jasperreports', version: '3.7.5'],
+				[group: 'commons-digester',name:'commons-digester', version: '1.6'],				
+				[group: 'commons-beanutils',name:'commons-beanutils', version: '1.5.3'],
+                [group: 'commons-collections',name:'commons-collections', version: '3.2.1'],
+                 [group: 'net.sf.jasperreports',name: 'jasperreports', version: '3.7.5'],
+				[group: 'commons-digester',name:'commons-digester', version: '1.6'],				
+				[group: 'commons-beanutils',name:'commons-beanutils', version: '1.5.3'],
+                [group: 'commons-collections',name:'commons-collections', version: '3.2.1'],				
 	            [group: 'com.lowagie', name: 'itext', version: '2.1.7'],
 	            [group: 'com.lowagie', name: 'itext-rtf', version: '2.1.7'],
  	        )

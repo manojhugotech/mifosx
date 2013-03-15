@@ -83,8 +83,10 @@ public class TicketMasterWritePlatformServiceImpl implements TicketMasterWritePl
          if (!new File(fileUploadLocation).isDirectory()) {
              new File(fileUploadLocation).mkdirs();
          }
-
-         String fileLocation = FileUtils.saveToFileSystem(inputStream, fileUploadLocation, documentCommand.getFileName());
+         String fileLocation=null;
+         if(documentCommand.getFileName()!=null){
+          fileLocation = FileUtils.saveToFileSystem(inputStream, fileUploadLocation, documentCommand.getFileName());
+         }
          TicketDetail detail=new TicketDetail(ticketId,ticketMasterCommand.getComments(),fileLocation,ticketMasterCommand.getAssignedTo());
          
          this.ticketDetailsRepository.save(detail);

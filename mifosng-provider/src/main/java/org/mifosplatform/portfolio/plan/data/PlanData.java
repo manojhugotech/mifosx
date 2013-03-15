@@ -14,13 +14,13 @@ public class PlanData {
 		private final Long id;
 		private final Long billRule;
 
-		private final String plan_code;
-		private final String plan_description;
+		private final String planCode;
+		private final String planDescription;
 		private  LocalDate startDate;
 		private final LocalDate endDate;
 		private final Long status;
 		private  EnumOptionData planstatus;
-		private final String service_description;
+		private final String serviceDescription;
 		private  final List<ServiceData> services;
 		private final List<ServiceData>selectedServices;
 		private List<String> contractPeriod;
@@ -34,19 +34,19 @@ public class PlanData {
 
 
 
-		public  PlanData(final Long id,final String plan_code)
+		public  PlanData(final Long id,final String planCode)
 		{
 
 			this.id=id;
-			this.plan_code=plan_code;
-			this.plan_description=null;
+			this.planCode=planCode;
+			this.planDescription=null;
 			this.endDate=null;
 			this.startDate=null;
 			this.subscriptiondata=null;
 			this.status=null;
 			this.statusType=null;
 			this.services=null;
-			this.service_description=null;
+			this.serviceDescription=null;
 			this.billRule=null;
 			this.Period=null;
 			this.datas=null;
@@ -56,17 +56,17 @@ public class PlanData {
 
 
 
-		public PlanData(Long id, String plan_code,
-				String service_description, LocalDate start_date,
+		public PlanData(Long id, String planCode,
+				String serviceDescription, LocalDate start_date,
 				Long plan_status, LocalDate end_date,EnumOptionData status) {
 			this.id=id;
-			this.plan_code=plan_code;
-			this.service_description=service_description;
+			this.planCode=planCode;
+			this.serviceDescription=serviceDescription;
 			this.startDate=start_date;
 			this.status=plan_status;
 			this.endDate=end_date;
 			this.billRule=null;
-			this.plan_description=null;
+			this.planDescription=null;
 			this.services=null;
 			this.statusType=null;
 			this.Period=null;
@@ -76,16 +76,16 @@ public class PlanData {
 		}
 
 
-		public PlanData(Long id, String plan_code, Long charge_code,
+		public PlanData(Long id, String planCode, Long charge_code,
 				String contract_period, LocalDate startDate, LocalDate endDate) {
 			this.id=id;
-			this.plan_code=plan_code;
-			this.service_description=null;
+			this.planCode=planCode;
+			this.serviceDescription=null;
 			this.startDate=startDate;
 			this.status=charge_code;
 			this.billRule=null;
 			this.endDate=endDate;
-			this.plan_description=contract_period;
+			this.planDescription=contract_period;
 			this.services=null;
 			this.statusType=null;
 			this.Period=null;
@@ -97,19 +97,19 @@ public class PlanData {
 				List<SubscriptionData> contractPeriod,
 			List<EnumOptionData> status,PlanData datas,List<ServiceData> selectedservice) {
 			this.id=datas.getId();
-		this.plan_code=datas.getPlan_code();
+		this.planCode=datas.getplanCode();
 			this.subscriptiondata=contractPeriod;
 			this.startDate=datas.getStartDate();
 			this.status=datas.getStatus();
 		this.billRule=datas.getBillRule();
 		this.endDate=datas.getEndDate();
-			this.plan_description=datas.getPlan_description();
+			this.planDescription=datas.getplanDescription();
 		this.services=data;
 
 		this.selectedServices=selectedservice;
 		this.statusType=billData;
 		this.planStatus=status;
-			this.service_description=null;
+			this.serviceDescription=null;
 			this.Period=null;
 			this.datas=datas;
 			this.datas=null;
@@ -124,17 +124,17 @@ public class PlanData {
 				List<EnumOptionData> status) {
 
 			this.id=null;
-			this.plan_code=null;
+			this.planCode=null;
 			this.subscriptiondata=contractPeriod;
 			this.startDate=null;
 			this.status=null;
 			this.billRule=null;
 			this.endDate=null;
-			this.plan_description=null;
+			this.planDescription=null;
 			this.services=data;
 			this.statusType=billData;
 			this.planStatus=status;
-			this.service_description=null;
+			this.serviceDescription=null;
 			this.Period=null;
 			this.datas=null;
 			this.selectedServices=null;
@@ -143,19 +143,19 @@ public class PlanData {
 
 
 
-		public PlanData(Long id, String plan_code, LocalDate startDate,
+		public PlanData(Long id, String planCode, LocalDate startDate,
 				LocalDate endDate, Long bill_rule, String contractPeriod,
-				 long status, String plan_description,
+				 long status, String planDescription,
 				long status1) {
 
 			this.id=id;
-			this.plan_code=plan_code;
-		this.service_description=null;
+			this.planCode=planCode;
+		this.serviceDescription=null;
 			this.startDate=startDate;
 			this.status=status;
 		this.billRule=bill_rule;
 			this.endDate=endDate;
-			this.plan_description=plan_description;
+			this.planDescription=planDescription;
 		this.services=null;
 			this.statusType=null;
 		this.Period=contractPeriod;
@@ -216,12 +216,12 @@ public class PlanData {
 			return id;
 		}
 
-		public String getPlan_code() {
-			return plan_code;
+		public String getplanCode() {
+			return planCode;
 		}
 
-		public String getPlan_description() {
-			return plan_description;
+		public String getplanDescription() {
+			return planDescription;
 		}
 
 		public LocalDate getStartDate() {
@@ -256,8 +256,8 @@ public class PlanData {
 
 
 
-		public String getService_description() {
-			return service_description;
+		public String getserviceDescription() {
+			return serviceDescription;
 		}
 
 

@@ -25,6 +25,7 @@ public class TicketMasterData {
     private String statusDescription;
 	private LocalDate createdDate;
 	private String attachedFile;
+	private String closedStatus;
   	public TicketMasterData(List<EnumOptionData> statusType,
 			List<EnumOptionData> priorityType) {
 		this.priorityType=priorityType;
@@ -59,6 +60,7 @@ public class TicketMasterData {
 		this.lastComment=lastComment;
 		this.problemDescription=problemDescription;
 		this.userName=userName;
+		this.closedStatus="CLOSED";
 		
 	}
 

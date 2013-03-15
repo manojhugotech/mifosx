@@ -215,10 +215,10 @@ public class PriceReadPlatformServiceImpl implements PriceReadPlatformService{
         public ChargesData mapRow(final ResultSet rs, @SuppressWarnings("unused") final int rowNum) throws SQLException {
 
         Long id = rs.getLong("id");
-            String charge_code = rs.getString("charge_code");
-            String charge_desc= rs.getString("charge_description");
+            String chargeCode = rs.getString("charge_code");
+            String chargeDesc= rs.getString("charge_description");
 
-            return new ChargesData(id,charge_code,charge_desc);
+            return new ChargesData(id,chargeCode,chargeDesc);
         }
 }
 
@@ -258,12 +258,12 @@ public List<ServiceData> retrieveServiceCodeDetails(Long planCode) {
 
         Long id = rs.getLong("id");
         Long planId = rs.getLong("planId");
-            String plan_code = rs.getString("plan_code");
-           String service_code = rs.getString("service_code");
-            String charge_code = rs.getString("charge_code");
+            String planCode = rs.getString("plan_code");
+           String serviceCode = rs.getString("service_code");
+            String chargeCode = rs.getString("charge_code");
             String chargeDescription = rs.getString("chargeDescription");
 
-            return new ServiceData(id,planId,plan_code,charge_code,service_code,chargeDescription);
+            return new ServiceData(id,planId,planCode,chargeCode,serviceCode,chargeDescription);
         }
 }
 

@@ -71,7 +71,7 @@ public class GenerateBill {
 	public BillingOrderCommand getProrataMonthlyFirstBill( // pro rataa
 			BillingOrderData billingOrderData) {
 
-		startDate = new LocalDate();
+		startDate = new LocalDate(billingOrderData.getBillStartDate());
 		
 
 		endDate = startDate.dayOfMonth().withMaximumValue();
@@ -198,7 +198,7 @@ public class GenerateBill {
 	public BillingOrderCommand getMonthyBill(BillingOrderData billingOrderData) {
 
 		if (billingOrderData.getInvoiceTillDate() == null) {
-			startDate = new LocalDate();
+			startDate = new LocalDate(billingOrderData.getBillStartDate());
 			endDate = startDate
 					.plusMonths(billingOrderData.getChargeDuration())
 					.minusDays(1);
@@ -254,7 +254,7 @@ public class GenerateBill {
 	public BillingOrderCommand getProrataWeeklyFirstBill(
 			BillingOrderData billingOrderData) {
 
-		startDate = new LocalDate();
+		startDate = new LocalDate(billingOrderData.getBillStartDate());
 		endDate = startDate.dayOfWeek().withMaximumValue();
 
 		int startDateOfWeek = startDate.getDayOfMonth();
@@ -349,8 +349,10 @@ public class GenerateBill {
 	public BillingOrderCommand getWeeklyBill(BillingOrderData billingOrderData) {
 
 		if (billingOrderData.getInvoiceTillDate() == null) {
-			startDate = new LocalDate();
-			endDate = startDate.plusWeeks(1).minusDays(1);
+			
+			// please consider the contract start date over here
+			startDate = new LocalDate(billingOrderData.getBillStartDate());
+ 			endDate = startDate.plusWeeks(1).minusDays(1);
 			price = billingOrderData.getPrice();
 		} else if (billingOrderData.getInvoiceTillDate() != null) {
 
@@ -397,7 +399,7 @@ public class GenerateBill {
 
 	public BillingOrderCommand getOneTimeBill(BillingOrderData billingOrderData) {
 
-		LocalDate startDate = new LocalDate();
+		LocalDate startDate = new LocalDate(billingOrderData.getBillStartDate());
 		LocalDate endDate = startDate;
 		LocalDate invoiceTillDate = startDate;
 		LocalDate nextbillDate = invoiceTillDate.plusDays(1);

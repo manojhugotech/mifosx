@@ -19,19 +19,21 @@ public class OrderPriceData {
 	private Date createdDate;
 	private Date lastModifiedDate;
 	private Long lastModifiedBy;
+	private Long clientId;
 
-	public OrderPriceData(Long id, Long orderId, Long serviceId,
+	public OrderPriceData(Long id, Long clientId, Long serviceId,
 			String chargeCode, String chargeType, String chargeDuration,
 			String durationtype, BigDecimal price) {
 
 		this.id=id;
-		this.orderId=orderId;
-		this.serviceId=serviceId;
+		this.orderId=clientId;
+		this.clientId=serviceId;
 		this.chargeCode=chargeCode;
 		this.chargeType=chargeType;
 		this.chargeDuration=chargeDuration;
 		this.durationType=durationtype;
 		this.price=price;
+		this.serviceId=null;
 
 
 	}
@@ -52,6 +54,14 @@ public class OrderPriceData {
 		this.durationType=durationType;
 		this.price=price;
 	}
+
+
+
+	
+
+
+
+	
 
 
 

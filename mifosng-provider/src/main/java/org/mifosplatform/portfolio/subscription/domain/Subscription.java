@@ -50,7 +50,7 @@ public class Subscription extends AbstractPersistable<Long> {
 	public void update(SubscriptionCommand command, String type) {
 
 		if (command.issubscriptionPeriodChanged()) {
-			this.subscriptionPeriod = command.getSubscription_period();
+			this.subscriptionPeriod = command.getSubscriptionPeriod();
 		}
 
 		if (command.isUnitsChanged()) {
@@ -61,7 +61,7 @@ public class Subscription extends AbstractPersistable<Long> {
 
 			this.subscriptionType = type;
 		}
-		if (command.isDayNameChanged()) {
+		if (command.issubscriptionTypeChanged()) {
 
 		}
 

@@ -18,7 +18,7 @@ import org.mifosplatform.useradministration.domain.AppUser;
 public class Payment extends AbstractAuditableCustom<AppUser, Long> {
 
 	@Column(name = "client_id", nullable = false)
-	private Long client_id;
+	private Long clientId;
 
 	@Column(name = "amount_paid", scale = 6, precision = 19, nullable = false)
 	private BigDecimal amountPaid;
@@ -38,28 +38,28 @@ public class Payment extends AbstractAuditableCustom<AppUser, Long> {
 	private String remarks;
 
 	@Column(name = "paymode_code")
-	private String paymode_code;
+	private String paymodeCode;
 
 	public Payment()
 	{}
 
-	public Payment(final Long client_id, final Long payment_id,
-			final Long external_id, final BigDecimal amountPaid,
+	public Payment(final Long clientId, final Long paymentId,
+			final Long externalId, final BigDecimal amountPaid,
 			final Long statmentId, final LocalDate paymentDate,
-			final String remark, final String Paymode_code) {
+			final String remark, final String paymodeCode) {
 
-		this.client_id = client_id;
+		this.clientId = clientId;
 
 		this.statementId = statmentId;
 		this.amountPaid = amountPaid;
 		this.paymentDate = paymentDate.toDate();
 		this.remarks = remark;
-		this.paymode_code = Paymode_code;
+		this.paymodeCode = paymodeCode;
 
 	}
 
-	public Long getClient_id() {
-		return client_id;
+	public Long getClientId() {
+		return clientId;
 	}
 
 	public BigDecimal getAmountPaid() {
@@ -82,8 +82,8 @@ public class Payment extends AbstractAuditableCustom<AppUser, Long> {
 		return remarks;
 	}
 
-	public String getPaymode_code() {
-		return paymode_code;
+	public String getPaymodeCode() {
+		return paymodeCode;
 	}
 
 	public void updateBillId(Long billId) {

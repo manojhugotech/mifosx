@@ -212,11 +212,11 @@ public class BillingOrderWritePlatformServiceImplementation implements
 
 		if (clientBalance != null) {
 
-			clientBalance = updateClientBalance.doUpdateClientBalance("CREDIT",
+			clientBalance = updateClientBalance.doUpdateClientBalance("DEBIT",
 					invoice.getInvoiceAmount(), invoice.getClientId(),
 					clientBalance);
 		} else if (clientBalance == null) {
-			clientBalance = updateClientBalance.createClientBalance("CREDIT",
+			clientBalance = updateClientBalance.createClientBalance("DEBIT",
 					invoice.getInvoiceAmount(), invoice.getClientId(),
 					clientBalance);
 		}

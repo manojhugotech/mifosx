@@ -14,6 +14,7 @@ import org.mifosplatform.portfolio.discountmaster.data.DiscountMasterData;
 import org.mifosplatform.portfolio.financialtransaction.data.FinancialTransactionsData;
 import org.mifosplatform.portfolio.loanaccount.data.LoanBasicDetailsData;
 import org.mifosplatform.portfolio.order.data.OrderData;
+import org.mifosplatform.portfolio.order.data.OrderPriceData;
 import org.mifosplatform.portfolio.paymodes.data.PaymodeData;
 import org.mifosplatform.portfolio.plan.data.PlanData;
 import org.mifosplatform.portfolio.plan.data.ServiceData;
@@ -33,11 +34,11 @@ public class GoogleGsonPortfolioApiJsonBillingSerializerService implements Portf
 
 
 	    private static final Set<String> SUBSCRIPTION_DATA_PARAMETERS = new HashSet<String>(Arrays.asList("id",
-	           "subscription_period","subscription_type","units","allowedtypes","day_name","subscriptionTypeId"));
+	           "subscriptionPeriod","subscriptionType","units","allowedtypes","subscriptionTypeId"));
 
 	    private static final Set<String> SERVICE_DATA_PARAMETERS = new HashSet<String>(Arrays.asList("id","serviceCode","serviceDescription","serviceType","serviceData"));
 
-	    private static final Set<String> ORDER_DATA_PARAMETERS = new HashSet<String>(Arrays.asList("id","pdid","status","contractperiod",
+	    private static final Set<String> ORDER_DATA_PARAMETERS = new HashSet<String>(Arrays.asList("id","cancelledStatus","status","contractperiod",
 	            "plan_code","units","service_code","allowedtypes","data","servicedata","billing_frequency", "start_date", "contract_period","startDate"));
 
 	    private static final Set<String> BILLINGCYCLE_DATA_PARAMETERS = new HashSet<String>(Arrays.asList("id",
@@ -58,8 +59,8 @@ public class GoogleGsonPortfolioApiJsonBillingSerializerService implements Portf
 	            "endDate", "status", "service_code", "service_description", "charge_code", "charge_description","servicedata","contractPeriod",
 	            "service_type", "charge_type", "allowedtypes","selectedservice","bill_rule","billiingcycle","servicedata","services","statusname","planstatus"));
 
-	    private static final Set<String> PRICING_DATA_PARAMETERS = new HashSet<String>(Arrays.asList("plan_code","planId","serviceId","chargeId","price",
-			"chargeVariantId","discountId","planCode","id", "serviceData","chargeData","data", "charge_code","charge_varaint","price"));
+	    private static final Set<String> PRICING_DATA_PARAMETERS = new HashSet<String>(Arrays.asList("planCode","planId","serviceId","chargeId","price",
+			"chargeVariantId","discountId","planCode","id", "serviceData","chargeData","data", "chargeCode","chargeVaraint","price"));
 
 
 
@@ -67,7 +68,8 @@ public class GoogleGsonPortfolioApiJsonBillingSerializerService implements Portf
 	    private static final Set<String> DISCOUNT_MASTER_DATA_PARAMETERS_TEMPLETE=new HashSet<String>(Arrays.asList("discountCode","discountOptions"));
 	private static final Set<String> SERVICE_MASTER_DATA_PARAMETERS_TEMPLETE=new HashSet<String>(Arrays.asList("id","serviceType","serviceCode","serviceDescription"));
 	private static final Set<String> TAX_MASTER_DATA_PARAMETERS_TEMPLETE=new HashSet<String>(Arrays.asList("id","taxType","taxMasterOptions"));
-	private static final Set<String> TRANSACTIONAL_DATA_PARAMETERS_TEMPLETE=new HashSet<String>(Arrays.asList("transactionId","transactionDate","transactionType","amount","billDate","dueDate","id"));
+	private static final Set<String> TRANSACTIONAL_DATA_PARAMETERS_TEMPLETE=new HashSet<String>(Arrays.asList("transactionId","transactionDate","transactionType","amount",
+			"invoiceId","chrageAmount","taxAmount","chargeType","amount","billDate","dueDate","id","transaction","chargeStartDate","chargeEndDate"));
 	private static final Set<String> TAX_MAPPING_RATE_DATA_PARAMETERS_TEMPLETE=new HashSet<String>(Arrays.asList("id","taxCode","taxMasterOptions"));
 	
 	private static final Set<String> TICKET_MASTER_DATA_PARAMETERS_TEMPLETE=new HashSet<String>(Arrays.asList("id","priority","statusType","priorityType",
@@ -337,6 +339,18 @@ public class GoogleGsonPortfolioApiJsonBillingSerializerService implements Portf
 		  final Gson gsonDeserializer = helper.createGsonBuilderWithParameterExclusionSerializationStrategy(SERVICE_MASTER_DATA_PARAMETERS_TEMPLETE,
 	                prettyPrint, responseParameters);
 	        return helper.serializedJsonFrom(gsonDeserializer, productData);
+	}
+
+
+
+	@Override
+	public String serializeClientOrderPriceDataToJson(boolean prettyPrint,
+			Set<String> responseParameters, Long clientId, OrderData data) {
+
+        final Gson gsonDeserializer = helper.createGsonBuilderWithParameterExclusionSerializationStrategy(ORDER_DATA_PARAMETERS,
+                prettyPrint, responseParameters);
+        return helper.serializedJsonFrom(gsonDeserializer, data);
+    
 	}
 
 

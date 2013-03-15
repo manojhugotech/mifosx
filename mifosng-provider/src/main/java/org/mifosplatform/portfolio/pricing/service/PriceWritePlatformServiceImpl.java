@@ -58,7 +58,7 @@ public class PriceWritePlatformServiceImpl implements PriceWritePlatformService 
 			}
 			Price data = new Price(planId, command.getChargeCode(),
 					command.getServiceCode(), command.getChargingVariant(),
-					command.getPrice(), command.getDiscount_id());
+					command.getPrice(), command.getdiscountId());
 			this.priceRepository.save(data);
 
 			return new CommandProcessingResult(data.getId());

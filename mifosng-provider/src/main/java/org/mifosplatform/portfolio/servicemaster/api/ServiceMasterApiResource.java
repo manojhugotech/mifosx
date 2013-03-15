@@ -58,10 +58,10 @@ public class ServiceMasterApiResource {
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Response createDiscountMaster(final String jsonRequestBody) {
+	public Response createService(final String jsonRequestBody) {
 
 		final ServiceMasterCommand command = this.apiDataConversionService.convertJsonToServiceMasterCommand(null, jsonRequestBody);
-		CommandProcessingResult id=serviceMasterWritePlatformService.createServiceMaster(command);
+		CommandProcessingResult id=serviceMasterWritePlatformService.createNewService(command);
 		 return Response.ok().entity(id).build();
 	}
 
@@ -113,7 +113,7 @@ public class ServiceMasterApiResource {
 	@Path("{serviceId}")
 	@Consumes({MediaType.APPLICATION_JSON})
 	@Produces({MediaType.APPLICATION_JSON})
-	public String retrieveDepositProductDetails(@PathParam("serviceId") final Long serviceId, @Context final UriInfo uriInfo) {
+	public String retrieveSingleServiceDetails(@PathParam("serviceId") final Long serviceId, @Context final UriInfo uriInfo) {
 
 
 		Set<String> typicalResponseParameters = new HashSet<String>(
@@ -140,7 +140,7 @@ public class ServiceMasterApiResource {
 	@Path("{serviceId}")
 	@Consumes({MediaType.APPLICATION_JSON})
 	@Produces({MediaType.APPLICATION_JSON})
-	public Response updateSubscription(@PathParam("serviceId") final Long serviceId, final String jsonRequestBody){
+	public Response updateService(@PathParam("serviceId") final Long serviceId, final String jsonRequestBody){
 
 		final ServiceMasterCommand command = this.apiDataConversionService.convertJsonToServiceMasterCommand(null, jsonRequestBody);
 		CommandProcessingResult entityIdentifier=this.serviceMasterWritePlatformService.updateService(command,serviceId);
@@ -153,7 +153,7 @@ public class ServiceMasterApiResource {
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response deleteSubscription(@PathParam("serviceId") final Long serviceId) {
 
-		this.serviceMasterWritePlatformService.deleteSubscription(serviceId);
+		this.serviceMasterWritePlatformService.deleteService(serviceId);
 
 		return Response.ok(serviceId).build();
 	}

@@ -68,9 +68,9 @@ public class PlansApiResource {
 	private final String entityType = "PLAN";
 
 	private static final Set<String> typicalResponseParameters = new HashSet<String>(
-			Arrays.asList("id", "status", "plan_code", "plan_description",
-					"charge_code", "service_code", "service_description",
-					"endDate", "bill_rule"));
+			Arrays.asList("id", "status", "planCode", "planDescription",
+					"charge_code", "serviceCode", "serviceDescription",
+					"endDate", "billRule"));
 
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON })

@@ -21,10 +21,10 @@ public class SubscriptionCommandValidator {
 	public void validateForCreate() {
          List<ApiParameterError> dataValidationErrors = new ArrayList<ApiParameterError>();
 		DataValidatorBuilder baseDataValidator = new DataValidatorBuilder(dataValidationErrors).resource("subscription");
-		baseDataValidator.reset().parameter("subscription_period").value(command.getSubscription_period()).notBlank().notNull();
+		baseDataValidator.reset().parameter("subscriptionPeriod").value(command.getSubscriptionPeriod()).notBlank().notNull();
 		//baseDataValidator.reset().parameter("subscription_type").value(command.getSubscription_type()).notBlank().notNull();
 		baseDataValidator.reset().parameter("units").value(command.getUnits()).notBlank().notNull();
-		baseDataValidator.reset().parameter("day_name").value(command.getDay_name());
+		baseDataValidator.reset().parameter("subscriptionType").value(command.getsubscriptionType());
 
 		if (!dataValidationErrors.isEmpty()) {
 			throw new PlatformApiDataValidationException("validation.msg.validation.errors.exist", "Validation errors exist.", dataValidationErrors);

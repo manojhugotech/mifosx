@@ -17,16 +17,18 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.joda.time.LocalDate;
 import org.mifosplatform.infrastructure.core.data.CommandProcessingResult;
+import org.mifosplatform.infrastructure.core.domain.AbstractAuditableCustom;
 import org.mifosplatform.portfolio.order.command.OrdersCommand;
+import org.mifosplatform.useradministration.domain.AppUser;
 
 @Entity
 @Table(name = "orders")
-public class Order {
+public class Order extends AbstractAuditableCustom<AppUser, Long> {
 
-	@Id
+	/*@Id
 	@GeneratedValue
 	@Column(name = "id")
-	private Long id;
+	private Long id;*/
 
 	@Column(name = "client_id")
 	private Long clientId;
@@ -91,10 +93,10 @@ public class Order {
 		this.is_deleted='n';
 	}
 
-	public Long getId() {
+	/*public Long getId() {
 		return id;
 	}
-
+*/
 	public Long getClientId() {
 		return clientId;
 	}

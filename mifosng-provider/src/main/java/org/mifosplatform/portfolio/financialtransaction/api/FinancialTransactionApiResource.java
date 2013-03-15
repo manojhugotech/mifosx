@@ -48,7 +48,7 @@ public class FinancialTransactionApiResource {
 
 
 	@GET
-	  @Path("{clientId}")
+	@Path("{clientId}")
 	@Consumes({MediaType.APPLICATION_JSON})
 	@Produces({MediaType.APPLICATION_JSON})
 	public String retrieveTransactionalData(
@@ -58,7 +58,7 @@ public class FinancialTransactionApiResource {
 	context.authenticatedUser().validateHasReadPermission(entityType);
 
 		Set<String> typicalResponseParameters = new HashSet<String>(
-				Arrays.asList("transactionId","transactionDate","transactionType","amount"));
+				Arrays.asList("transactionId","transactionDate","transactionType","amount","transaction"));
 
 		Set<String> responseParameters = ApiParameterHelper.extractFieldsForResponseIfProvided(uriInfo.getQueryParameters());
 		if (responseParameters.isEmpty()) {
@@ -67,6 +67,32 @@ public class FinancialTransactionApiResource {
 		boolean prettyPrint = ApiParameterHelper.prettyPrint(uriInfo.getQueryParameters());
 
 		List<FinancialTransactionsData> transactionData = this.billMasterReadPlatformService.retrieveInvoiceFinancialData(clientId);
+
+
+
+		return this.apiJsonSerializerService.serializeTransactionalDataToJson(prettyPrint, responseParameters, transactionData);
+	}
+	
+	@GET
+	@Path("{invoiceId}/invoice")
+	@Consumes({MediaType.APPLICATION_JSON})
+	@Produces({MediaType.APPLICATION_JSON})
+	public String retrieveInvoiceData(
+			@PathParam("invoiceId") final Long invoiceId,
+			@Context final UriInfo uriInfo) {
+
+	context.authenticatedUser().validateHasReadPermission(entityType);
+
+		Set<String> typicalResponseParameters = new HashSet<String>(
+				Arrays.asList("invoiceId","chrageAmount","taxAmount","chargeType","amount","chargeStartDate","chargeEndDate"));
+
+		Set<String> responseParameters = ApiParameterHelper.extractFieldsForResponseIfProvided(uriInfo.getQueryParameters());
+		if (responseParameters.isEmpty()) {
+			responseParameters.addAll(typicalResponseParameters);
+		}
+		boolean prettyPrint = ApiParameterHelper.prettyPrint(uriInfo.getQueryParameters());
+
+		List<FinancialTransactionsData> transactionData = this.billMasterReadPlatformService.retrieveSingleInvoiceData(invoiceId);
 
 
 

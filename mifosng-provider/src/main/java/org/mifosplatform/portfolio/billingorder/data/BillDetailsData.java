@@ -10,11 +10,11 @@ private String addrNo;
 private String clientName;
 private String billPeriod;
 private String street;
-private String zip;
+private String zipcode;
 private String city;
 private String state;
 private String country;
-private Double previousBal;
+private Double previousBalance;
 private Double chargeAmount;
 private Double adjustmentAmount;
 private Double taxAmount;
@@ -22,10 +22,14 @@ private Double paidAmount;
 private Double dueAmount;
 private LocalDate billDate;
 private LocalDate dueDate;
-private String message;
-
+private String promotionalMessage;
+private String billNo;
+private String date;
+private String transaction;
+private String amount;
+private String payments;
 	public BillDetailsData(Long id, Long clientId, String addrNo, String clientName,
-			String billPeriod, String street, String zip, String city,
+			String billPeriod, String street, String zipcode, String city,
 			String state, String country, Double previousBal,
 			Double chargeAmount, Double adjustmentAmount, Double taxAmount,
 			Double paidAmount, Double dueAmount,LocalDate billDate,LocalDate duDate,String message) {
@@ -41,14 +45,14 @@ private String message;
 		this.country=country;
 		this.dueAmount=dueAmount;
 		this.paidAmount=paidAmount;
-		this.previousBal=previousBal;
+		this.previousBalance=previousBal;
 		this.state=state;
 		this.street=street;
 		this.taxAmount=taxAmount;
-		this.zip=zip;
+		this.zipcode=zipcode;
 		this.billDate=billDate;
 		this.dueDate=duDate;
-		this.message=message;
+		this.promotionalMessage=message;
 
 	}
 
@@ -61,11 +65,17 @@ private String message;
 	}
 
 	public String getAddrNo() {
-		return addrNo;
+		if(addrNo!=null){
+		return addrNo+",";}
+		else{
+			return "";}
 	}
 
 	public String getClientName() {
-		return clientName;
+		if(clientName!=null){
+		return clientName;}
+		else{
+			return "";}
 	}
 
 	public String getBillPeriod() {
@@ -73,27 +83,75 @@ private String message;
 	}
 
 	public String getStreet() {
-		return street;
+		if(street!=null){
+		return street;}
+		else{
+			return "";}
 	}
 
 	public String getZip() {
-		return zip;
+		if(zipcode!=null){
+		return zipcode;}
+		else{
+			return "";}
 	}
 
 	public String getCity() {
-		return city;
+		if(city!=null){
+		return city+",";}
+		else{
+			return "";}
 	}
 
 	public String getState() {
-		return state;
+		if(state!=null){
+		return state+",";}
+		else{
+			return "";}
 	}
 
 	public String getCountry() {
-		return country;
+		if(country!=null){
+		return country+",";}
+		else{
+			return "";}
 	}
 
-	public Double getPreviousBal() {
-		return previousBal;
+	public Double getPreviousBalance() {
+		return previousBalance;
+	}
+
+	public String getZipcode() {
+		if(zipcode!=null){
+		return zipcode;}
+		else{
+			return "";}
+	}
+
+	
+
+	public String getPromotionalMessage() {
+		return promotionalMessage;
+	}
+
+	public String getBillNo() {
+		return billNo;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public String getTransaction() {
+		return transaction;
+	}
+
+	public String getAmount() {
+		return amount;
+	}
+
+	public String getPayments() {
+		return payments;
 	}
 
 	public Double getChargeAmount() {
@@ -125,7 +183,7 @@ private String message;
 	}
 
 	public String getMessage() {
-		return message;
+		return promotionalMessage;
 	}
 
 

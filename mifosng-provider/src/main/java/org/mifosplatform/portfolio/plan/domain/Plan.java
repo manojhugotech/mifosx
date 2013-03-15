@@ -30,7 +30,7 @@ public class Plan{
 	private Long id;
 
 	@Column(name = "plan_code", length = 65536)
-	private String code;
+	private String planCode;
 
 	@Column(name = "plan_description")
 	private String description;
@@ -38,16 +38,16 @@ public class Plan{
 	@Column(name = "plan_status")
 	private Long status;
 	@Column(name = "contract_period")
-	private String contract_period;
+	private String contractPeriod;
 
 	@Column(name = "start_date")
-	private Date start_date;
+	private Date startDate;
 
 	@Column(name = "end_date")
-	private Date end_date;
+	private Date endDate;
 
 	@Column(name = "bill_rule")
-	private Long bill_rule;
+	private Long billRule;
 
 	@Column(name = "is_deleted", nullable = false)
 	private char deleted='n';
@@ -65,14 +65,14 @@ public class Plan{
 			final Long bill_rule, final Long status,
 			 final String contractPeriod,
 			final List<ServiceDetails> details) {
-		this.code = code;
+		this.planCode = code;
 		this.description = description;
 		if (endDate != null)
-			this.end_date = endDate.toDate();
-		this.start_date = start_date.toDate();
+			this.endDate = endDate.toDate();
+		this.startDate = start_date.toDate();
 		this.status = status;
-		this.contract_period = contractPeriod;
-		this.bill_rule = bill_rule;
+		this.contractPeriod = contractPeriod;
+		this.billRule = bill_rule;
 		this.details = details;
 
 	}
@@ -82,7 +82,7 @@ public class Plan{
 	}
 
 	public String getCode() {
-		return code;
+		return planCode;
 	}
 
 	public String getDescription() {
@@ -94,17 +94,17 @@ public class Plan{
 	}
 
 	public Date getStart_date() {
-		return start_date;
+		return startDate;
 	}
 
 	public Date getEnd_date() {
-		return end_date;
+		return endDate;
 	}
 
 
 
 	public String getContractPeriod() {
-		return contract_period;
+		return contractPeriod;
 	}
 
 	public void addServieDetails(ServiceDetails serviceDetail) {
@@ -115,31 +115,31 @@ public class Plan{
 	}
 
 	public Long getBill_rule() {
-		return bill_rule;
+		return billRule;
 	}
 
 	public void update(PlansCommand command, PlanData serviceData,
 			List<ServiceData> services) {
 
-		this.code = command.isplanCodeChanged() ? command.getPlan_code()
-				: this.code;
+		this.planCode = command.isplanCodeChanged() ? command.getplanCode()
+				: this.planCode;
 
 		this.description = command.isplanDescriptionChanged() ? command
-				.getPlan_description() :  this.description;
+				.getplanDescription() :  this.description;
 
-		this.start_date = command.isStartDateChanged() ? command
-				.getStartDate().toDate() :this.start_date;
+		this.startDate = command.isStartDateChanged() ? command
+				.getStartDate().toDate() :this.startDate;
 		if (command.getEndDate() == null) {
-			this.end_date = null;
+			this.endDate = null;
 
 		} else {
-			this.end_date = command.isendDateChanged() ? command.getEndDate()
-					.toDate() : this.end_date;
+			this.endDate = command.isendDateChanged() ? command.getEndDate()
+					.toDate() : this.endDate;
 		}
-		this.bill_rule = command.isBillingRuleChanged() ? command.getBillRule()
-				: this.bill_rule;
-		this.contract_period = command.isContractPeriodChanged() ? command
-				.getContractPeriod() : this.contract_period;
+		this.billRule = command.isBillingRuleChanged() ? command.getBillRule()
+				: this.billRule;
+		this.contractPeriod = command.isContractPeriodChanged() ? command
+				.getContractPeriod() : this.contractPeriod;
 
 		this.status = command.isPlanStatusChanged() ? command.getStatus()
 				:this.status;

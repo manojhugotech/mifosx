@@ -59,7 +59,7 @@ public class PaymodeApiResource {
 	@POST
 	@Consumes({MediaType.APPLICATION_JSON})
 	@Produces({MediaType.APPLICATION_JSON})
-	public Response createSubscription(final String jsonRequestBody) {
+	public Response createPaymode(final String jsonRequestBody) {
 
 		PaymodeCommand command = this.apiDataConversionService.convertJsonToPaymodeCommand(null, jsonRequestBody);
 

@@ -5,54 +5,54 @@ import java.util.Set;
 
 public class PricingCommand {
 
-	private final  String plan_code;
-	private final String service_code;
-	private final String charge_code;
-	private final  String charging_variant;
+	private final  String planCode;
+	private final String serviceCode;
+	private final String chargeCode;
+	private final  String chargingVariant;
 
 	private final  BigDecimal price;
-	private final Long discount_id;
+	private final Long discountId;
 
 
 	private final Set<String> modifiedParameters;
 
 	public PricingCommand(Set<String> modifiedParameters,
-		 String plan_code, String service_code,
-			String charge_code, String charging_variant, BigDecimal price,
-			Long discount_id) {
-		this.charge_code=charge_code;
-		this.service_code=service_code;
-		this.plan_code=plan_code;
-		this.charging_variant=charging_variant;
+		 String planCode, String serviceCode,
+			String chargeCode, String chargingVariant, BigDecimal price,
+			Long discountId) {
+		this.chargeCode=chargeCode;
+		this.serviceCode=serviceCode;
+		this.planCode=planCode;
+		this.chargingVariant=chargingVariant;
 		this.price=price;
-		this.discount_id=discount_id;
+		this.discountId=discountId;
 		this.modifiedParameters=modifiedParameters;
 
 
 	}
 
 	public String getPlanCode() {
-		return plan_code;
+		return planCode;
 	}
 
 	public String getServiceCode() {
-		return service_code;
+		return serviceCode;
 	}
 
 	public String getChargeCode() {
-		return charge_code;
+		return chargeCode;
 	}
 
 	public String getChargingVariant() {
-		return charging_variant;
+		return chargingVariant;
 	}
 
 	public BigDecimal getPrice() {
 		return price;
 	}
 
-	public Long getDiscount_id() {
-		return discount_id;
+	public Long getdiscountId() {
+		return discountId;
 	}
 
 	public Set<String> getModifiedParameters() {
@@ -60,11 +60,11 @@ public class PricingCommand {
 	}
 
 	public boolean isServiceCodeChanged() {
-		return this.modifiedParameters.contains("service_code");
+		return this.modifiedParameters.contains("serviceCode");
 	}
 
 	public boolean isChargeCodeChanged() {
-		return this.modifiedParameters.contains("charge_code");
+		return this.modifiedParameters.contains("chargeCode");
 	}
 	public boolean isChargeVariantChanged() {
 		return this.modifiedParameters.contains("chargevariant");
@@ -74,7 +74,7 @@ public class PricingCommand {
 	}
 
 	public boolean isDiscountChanged() {
-		return this.modifiedParameters.contains("discount_id");
+		return this.modifiedParameters.contains("discountId");
 	}
 
 

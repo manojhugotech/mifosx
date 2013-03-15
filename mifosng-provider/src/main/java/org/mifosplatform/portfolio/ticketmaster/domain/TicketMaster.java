@@ -138,7 +138,7 @@ public class TicketMaster {
 
 
 	public void update(TicketMasterCommand command) {
-		this.status=command.getStatus();
+		this.status="CLOSED";
 		this.resolutionDescription=command.getResolutionDescription();
 		this.closedDate=new LocalDate().toDate();
 		

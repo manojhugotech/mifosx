@@ -792,19 +792,19 @@ public class PortfolioApiBillingDataConversionServiceImpl implements
         final Map<String, String> requestMap = gsonConverter.fromJson(json, typeOfMap);
 		Set<String> modifiedParameters = new HashSet<String>();
 		Set<String> supportedParams = new HashSet<String>(
-				Arrays.asList("plan_code","plan_description","locale","dateFormat","startDate","endDate","status","charge_code","roles","bill_rule","services")
+				Arrays.asList("planCode","planDescription","locale","dateFormat","startDate","endDate","status","chargeCode","roles","billRule","services")
 				);
 		checkForUnsupportedParameters(requestMap, supportedParams);
 		//Long plan_id=extractLongParameter("id", requestMap, modifiedParameters);
-		String plan_code = extractStringParameter("plan_code", requestMap,modifiedParameters);
-		String plan_description=extractStringParameter("plan_description", requestMap, modifiedParameters);
-	 LocalDate start_date = extractLocalDateParameter("startDate", requestMap, modifiedParameters);
-	LocalDate end_date = extractLocalDateParameter("endDate", requestMap, modifiedParameters);
+		String planCode = extractStringParameter("planCode", requestMap,modifiedParameters);
+		String planDescription=extractStringParameter("planDescription", requestMap, modifiedParameters);
+	 LocalDate startDate = extractLocalDateParameter("startDate", requestMap, modifiedParameters);
+	LocalDate endDate = extractLocalDateParameter("endDate", requestMap, modifiedParameters);
 	Long status=extractLongParameter("status",requestMap,modifiedParameters);
 	String contractPeriod=extractStringParameter("contractPeriod",requestMap,modifiedParameters);
-	Long bill_rule=extractLongParameter("bill_rule", requestMap, modifiedParameters);
+	Long billRule=extractLongParameter("billRule", requestMap, modifiedParameters);
 
-	String charge_code=extractStringParameter("charge_code", requestMap, modifiedParameters);
+	String chargeCode=extractStringParameter("chargeCode", requestMap, modifiedParameters);
 
 	final JsonParser parser = new JsonParser();
 
@@ -822,7 +822,7 @@ public class PortfolioApiBillingDataConversionServiceImpl implements
         }
     }
 
-		 return new  PlansCommand(modifiedParameters,plan_code,plan_description,start_date,end_date,status,services,bill_rule,charge_code,contractPeriod);
+		 return new  PlansCommand(modifiedParameters,planCode,planDescription,startDate,endDate,status,services,billRule,chargeCode,contractPeriod);
 	}
 
 	@Override
@@ -834,23 +834,23 @@ public class PortfolioApiBillingDataConversionServiceImpl implements
 	        Map<String, String> requestMap = gsonConverter.fromJson(json, typeOfMap);
 
 	        // preClosureInterestRate
-	        Set<String> supportedParams = new HashSet<String>(Arrays.asList("payment_id","clientId","payment_date","payment_code","amount_paid",
-				"statment_id","externalId","remarks", "locale", "dateFormat"));
+	        Set<String> supportedParams = new HashSet<String>(Arrays.asList("paymentId","clientId","paymentDate","paymentCode","amountPaid",
+				"statmentId","externalId","remarks", "locale", "dateFormat"));
 	        checkForUnsupportedParameters(requestMap, supportedParams);
 	        Set<String> modifiedParameters = new HashSet<String>();
 
 	        Long clientId = extractLongParameter("clientId", requestMap, modifiedParameters);
-	        Long payment_id = extractLongParameter("payment_id", requestMap, modifiedParameters);
+	        Long paymentId = extractLongParameter("paymentId", requestMap, modifiedParameters);
 	        Long externalId = extractLongParameter("externalId", requestMap, modifiedParameters);
-	        Long statment_id = extractLongParameter("statment_id", requestMap, modifiedParameters);
-	        String payment_code = extractStringParameter("payment_code", requestMap, modifiedParameters);
+	        Long statmentId = extractLongParameter("statmentId", requestMap, modifiedParameters);
+	        String paymentCode = extractStringParameter("paymentCode", requestMap, modifiedParameters);
 	        String remarks = extractStringParameter("remarks", requestMap, modifiedParameters);
-	        BigDecimal amount_paid = extractBigDecimalParameter("amount_paid", requestMap, modifiedParameters);
-	        LocalDate payment_date = extractLocalDateParameter("payment_date", requestMap, modifiedParameters);
+	        BigDecimal amountPaid = extractBigDecimalParameter("amountPaid", requestMap, modifiedParameters);
+	        LocalDate paymentDate = extractLocalDateParameter("paymentDate", requestMap, modifiedParameters);
 
 
-	        return new Paymentcommand(clientId, payment_id, externalId, statment_id, payment_code,
-				remarks, amount_paid, payment_date);
+	        return new Paymentcommand(clientId, paymentId, externalId, statmentId, paymentCode,
+				remarks, amountPaid, paymentDate);
 	}
 
 	@Override
@@ -864,17 +864,17 @@ public class PortfolioApiBillingDataConversionServiceImpl implements
 		Type typeOfMap = new TypeToken<Map<String, String>>() {}.getType();
 		Map<String, String> requestMap = gsonConverter.fromJson(json, typeOfMap);
 		Set<String> supportedParams = new HashSet<String>(
-				Arrays.asList("id","plan_code","locale","service_code","charge_code","chargevariant","price","discount_id")
+				Arrays.asList("id","planCode","locale","serviceCode","chargeCode","chargevariant","price","discountId")
 				);
 		checkForUnsupportedParameters(requestMap, supportedParams);
-		Long sub_id=extractLongParameter("id", requestMap, modifiedParameters);
-		String plan_code = extractStringParameter("plan_code", requestMap,modifiedParameters);
-			String service_code=extractStringParameter("service_code",requestMap,modifiedParameters);
-			String charge_code=extractStringParameter("charge_code",requestMap,modifiedParameters);
+		Long id=extractLongParameter("id", requestMap, modifiedParameters);
+		String planCode = extractStringParameter("planCode", requestMap,modifiedParameters);
+			String serviceCode=extractStringParameter("serviceCode",requestMap,modifiedParameters);
+			String chargeCode=extractStringParameter("chargeCode",requestMap,modifiedParameters);
 			String charging_variant=extractStringParameter("chargevariant",requestMap,modifiedParameters);
 	BigDecimal price=extractBigDecimalParameter("price",requestMap,modifiedParameters);
-	 Long discount_id=extractLongParameter("discount_id", requestMap, modifiedParameters);
-		 return new  PricingCommand(modifiedParameters,plan_code,service_code,charge_code,charging_variant,price,discount_id);
+	 Long discountId=extractLongParameter("discountId", requestMap, modifiedParameters);
+		 return new  PricingCommand(modifiedParameters,planCode,serviceCode,chargeCode,charging_variant,price,discountId);
 	}
 
 	@Override
@@ -888,7 +888,7 @@ public class PortfolioApiBillingDataConversionServiceImpl implements
 			 Type typeOfMap = new TypeToken<Map<String, String>>() {}.getType();
 			 Map<String, String> requestMap = gsonConverter.fromJson(jsonRequestBody, typeOfMap);
 			 Set<String> supportedParams = new HashSet<String>(
-			 Arrays.asList("planCode","locale","dateFormat","start_date","paytermCode","contractPeriod","billAlign")
+			 Arrays.asList("planCode","locale","dateFormat","start_date","paytermCode","contractPeriod","billAlign","price")
 			 );
 			 checkForUnsupportedParameters(requestMap, supportedParams);
 			 Long plan_id=extractLongParameter("planCode", requestMap, modifiedParameters);
@@ -896,8 +896,8 @@ public class PortfolioApiBillingDataConversionServiceImpl implements
 			 String paytermtype=extractStringParameter("paytermCode",requestMap,modifiedParameters);
 			 Long contractPeriod=extractLongParameter("contractPeriod",requestMap,modifiedParameters);
 			 boolean billAlign=extractBooleanParameter("billAlign", requestMap, modifiedParameters);
-
-			     return new OrdersCommand(modifiedParameters,plan_id,plan_id,start_date,paytermtype,contractPeriod,clientId,billAlign);
+			 BigDecimal price=extractBigDecimalParameter("price",requestMap,modifiedParameters);
+			     return new OrdersCommand(modifiedParameters,plan_id,plan_id,start_date,paytermtype,contractPeriod,clientId,billAlign,price);
 	}
 
 	@Override

@@ -65,14 +65,14 @@ public class PaymentsApiResource {
 	@Autowired
 	private PlatformSecurityContext context;
 	private static final Set<String> typicalResponseParameters = new HashSet<String>(
-			Arrays.asList("payment_id","clientId","payment_date","payment_code","amount_paid","statment_id","externalId",
-					"cancellation_date","cancellation_remarks","Remarks"));
+			Arrays.asList("id","clientId","paymentDate","paymentCode","amountPaid","statmentId","externalId",
+					"Remarks"));
 
 	@POST
 	 @Path("{clientId}")
 	@Consumes({MediaType.APPLICATION_JSON})
 	@Produces({MediaType.APPLICATION_JSON})
-	public Response createDepositAccount(@PathParam("clientId") final Long clientId,final String jsonRequestBody){
+	public Response createPayment(@PathParam("clientId") final Long clientId,final String jsonRequestBody){
 
 		final Paymentcommand command = this.apiDataConversionService.convertJsonToPaymentCommand(null, jsonRequestBody);
 		List<ClientBalanceData> clientBalancedatas = clientBalanceReadPlatformService.retrieveAllClientBalances(clientId);
@@ -88,7 +88,7 @@ public class PaymentsApiResource {
 	    @Path("template")
 	    @Consumes({ MediaType.APPLICATION_JSON })
 	    @Produces({ MediaType.APPLICATION_JSON })
-	    public String retrieveDetailsForNewLoanApplicationStepOne(@QueryParam("clientId") final Long clientId,
+	    public String retrieveDetailsForPayments(@QueryParam("clientId") final Long clientId,
 			 @QueryParam("productId") final Long productId,  @Context final UriInfo uriInfo) {
 
 

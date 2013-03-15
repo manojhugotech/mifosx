@@ -7,9 +7,9 @@ import org.joda.time.LocalDate;
 public class PlansCommand {
 
 
-		private final String plan_code;
+		private final String planCode;
 
-		private final String plan_description;
+		private final String planDescription;
 		private final String contractPeriod;
 
 		 private final LocalDate startDate;
@@ -17,22 +17,22 @@ public class PlansCommand {
 
 		private Long status;
 		private final String[] services;
-		private String charge_code;
+		private String chargeCode;
 		private final Set<String> modifiedParameters;
-		private final Long bill_rule;
+		private final Long billRule;
 
 		public PlansCommand(final Set<String> modifiedParameters,
-				final String plan_code,final String plan_description,final LocalDate startDate,
+				final String planCode,final String planDescription,final LocalDate startDate,
 				final LocalDate endDate,final Long status,String[] services,
-				final Long bill_rule,final String charge_code,final String contractPeriod) {
-			this.plan_code = plan_code;
-            this.plan_description=plan_description;
+				final Long billRule,final String chargeCode,final String contractPeriod) {
+			this.planCode = planCode;
+            this.planDescription=planDescription;
 			this.startDate = startDate;
 			this.endDate = endDate;;
 			this.status = status;
 			this.services=services;
-			this.charge_code=charge_code;
-			this.bill_rule=bill_rule;
+			this.chargeCode=chargeCode;
+			this.billRule=billRule;
 			this.contractPeriod=contractPeriod;
 
 			this.modifiedParameters = modifiedParameters;
@@ -40,12 +40,12 @@ public class PlansCommand {
 
 
 
-		public String getPlan_code() {
-			return plan_code;
+		public String getplanCode() {
+			return planCode;
 		}
 
-		public String getPlan_description() {
-			return plan_description;
+		public String getplanDescription() {
+			return planDescription;
 		}
 
 		public LocalDate getStartDate() {
@@ -65,7 +65,7 @@ public class PlansCommand {
 
 
 		public Long getBillRule() {
-			return bill_rule;
+			return billRule;
 		}
 
 
@@ -76,8 +76,8 @@ public class PlansCommand {
 
 
 
-		public String getCharge_code() {
-			return charge_code;
+		public String getchargeCode() {
+			return chargeCode;
 		}
 
 		public Set<String> getModifiedParameters() {
@@ -92,16 +92,16 @@ public class PlansCommand {
 
 
 
-		public Long getBill_rule() {
-			return bill_rule;
+		public Long getbillRule() {
+			return billRule;
 		}
 
 		public boolean isplanCodeChanged() {
-			return this.modifiedParameters.contains("plan_code");
+			return this.modifiedParameters.contains("planCode");
 		}
 
 		public boolean isplanDescriptionChanged() {
-			return this.modifiedParameters.contains("plan_description");
+			return this.modifiedParameters.contains("planDescription");
 		}
 		public boolean isStartDateChanged() {
 			return this.modifiedParameters.contains("startDate");
@@ -119,7 +119,7 @@ public class PlansCommand {
 		}
 
 		public boolean isBillingRuleChanged() {
-			return this.modifiedParameters.contains("bill_rule");
+			return this.modifiedParameters.contains("billRule");
 		}
 
 		public boolean isServicesChanged() {

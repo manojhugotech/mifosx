@@ -78,7 +78,7 @@ public class SubscriptionApiResource {
 	context.authenticatedUser().validateHasReadPermission(entityType);
 
 		Set<String> typicalResponseParameters = new HashSet<String>(
-				Arrays.asList("id","subscription_period","subscription_type","units","subscriptionTypeId","day_name"));
+				Arrays.asList("id","subscriptionPeriod","subscriptionType","units","subscriptionTypeId"));
 
 		Set<String> responseParameters = ApiParameterHelper.extractFieldsForResponseIfProvided(uriInfo.getQueryParameters());
 		if (responseParameters.isEmpty()) {
@@ -94,12 +94,12 @@ public class SubscriptionApiResource {
 	@Path("{SubscriptionId}")
 	@Consumes({MediaType.APPLICATION_JSON})
 	@Produces({MediaType.APPLICATION_JSON})
-	public String retrieveDepositProductDetails(@PathParam("SubscriptionId") final Long SubscriptionId, @Context final UriInfo uriInfo) {
+	public String retrieveSubscriptionDetails(@PathParam("SubscriptionId") final Long SubscriptionId, @Context final UriInfo uriInfo) {
 
 	context.authenticatedUser().validateHasReadPermission(entityType);
 
 		Set<String> typicalResponseParameters = new HashSet<String>(
-				Arrays.asList("id","subscription_period","subscription_type","units","day_name","subscriptionTypeId" ));
+				Arrays.asList("id","subscriptionPeriod","subscriptionType","units","subscriptionTypeId" ));
 
 		Set<String> responseParameters = ApiParameterHelper.extractFieldsForResponseIfProvided(uriInfo.getQueryParameters());
 		if (responseParameters.isEmpty()) {
@@ -123,12 +123,12 @@ public class SubscriptionApiResource {
 	@Path("template")
 	@Consumes({MediaType.APPLICATION_JSON})
 	@Produces({MediaType.APPLICATION_JSON})
-	public String retrieveNewDepositProductDetails(@Context final UriInfo uriInfo) {
+	public String retrieveAllSubscriptionDetails(@Context final UriInfo uriInfo) {
 
 	context.authenticatedUser().validateHasReadPermission(entityType);
 
 		Set<String> typicalResponseParameters = new HashSet<String>(
-				Arrays.asList("id","subscription_period","subscription_type","day_name"));
+				Arrays.asList("id","subscriptionPeriod","subscriptionType"));
 
 		Set<String> responseParameters = ApiParameterHelper.extractFieldsForResponseIfProvided(uriInfo.getQueryParameters());
 		if (responseParameters.isEmpty()) {

@@ -16,6 +16,13 @@ public class FinancialTransactionsData {
 	private LocalDate transactionalDate;
 	private LocalDate billDate;
 	private LocalDate dueDate;
+	private String transaction;
+	private String chargeType;
+	private String chargeDescription;
+	private BigDecimal chargeAmount;
+	private BigDecimal taxAmount;
+	private LocalDate chargeStartDate;
+	private LocalDate chargeEndDate;
 
 	public FinancialTransactionsData(final Long transactionId,final Date transactionDate,String transactionType,BigDecimal amount) {
 		this.transactionId = transactionId;
@@ -31,6 +38,7 @@ public class FinancialTransactionsData {
 		this.transDate = transDate;
 		this.transactionType = transactionType;
 		this.amount = amount;
+		this.transaction="INVOICE";
 
 	}
 
@@ -50,6 +58,17 @@ public class FinancialTransactionsData {
 		this.billDate=billDate;
 		this.dueDate=dueDate;
 		this.amount=amount;
+	}
+
+	public FinancialTransactionsData(String chargeType,
+			String chargeDescription, BigDecimal chargeAmount,
+			BigDecimal taxAmount, LocalDate chargeStartDate, LocalDate chargeEndDate) {
+		this.chargeType=chargeType;
+		this.chargeDescription=chargeDescription;
+		this.chargeAmount=chargeAmount;
+		this.taxAmount=taxAmount;
+		this.chargeStartDate=chargeStartDate;
+		this.chargeEndDate=chargeEndDate;
 	}
 
 	public Long getTransactionId() {

@@ -15,15 +15,18 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.joda.time.LocalDate;
+import org.mifosplatform.infrastructure.core.domain.AbstractAuditableCustom;
+import org.mifosplatform.portfolio.order.command.OrdersCommand;
+import org.mifosplatform.useradministration.domain.AppUser;
 
 @Entity
 @Table(name = "order_price")
-public class OrderPrice {
+public class OrderPrice extends AbstractAuditableCustom<AppUser, Long> {
 
-	@Id
+	/*@Id
 	@GeneratedValue
 	@Column(name = "id")
-	private Long id;
+	private Long id;*/
 
 	@Column(name = "service_id")
 	private Long serviceId;
@@ -190,9 +193,9 @@ public class OrderPrice {
 
 	}
 
-	public Long getId() {
+	/*public Long getId() {
 		return id;
-	}
+	}*/
 
 	public void setChargeDuration(String chargeDuration) {
 		this.chargeDuration = chargeDuration;
@@ -212,6 +215,12 @@ public class OrderPrice {
 
 	public void setNextBillableDay(Date nextBillableDate) {
 		 this.nextBillableDay=nextBillableDate;
+		
+	}
+
+	public void setPrice(OrdersCommand command) {
+		
+		this.price=command.getPrice();
 		
 	}
 

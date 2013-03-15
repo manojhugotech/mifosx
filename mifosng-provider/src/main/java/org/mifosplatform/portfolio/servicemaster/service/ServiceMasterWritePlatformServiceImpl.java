@@ -29,7 +29,7 @@ public class ServiceMasterWritePlatformServiceImpl  implements ServiceMasterWrit
 }
     @Transactional
 	@Override
-	public CommandProcessingResult createServiceMaster(ServiceMasterCommand command) {
+	public CommandProcessingResult createNewService(ServiceMasterCommand command) {
 		// TODO Auto-generated method stub
 		try {
 			context.authenticatedUser();
@@ -76,7 +76,7 @@ public class ServiceMasterWritePlatformServiceImpl  implements ServiceMasterWrit
 	}
 	}
 	@Override
-	public void deleteSubscription(Long serviceId) {
+	public void deleteService(Long serviceId) {
 		ServiceMaster master=this.serviceMasterRepository.findOne(serviceId);
 		master.delete();
 		this.serviceMasterRepository.save(master);

@@ -14,13 +14,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.UriInfo;
 
-import org.joda.time.LocalDate;
 import org.mifosplatform.infrastructure.core.api.ApiParameterHelper;
 import org.mifosplatform.infrastructure.security.service.PlatformSecurityContext;
-import org.mifosplatform.portfolio.adjustment.domain.ClientBalance;
 import org.mifosplatform.portfolio.billingmaster.command.BillMasterCommand;
 import org.mifosplatform.portfolio.billingorder.data.BillDetailsData;
 import org.mifosplatform.portfolio.billingproduct.PortfolioApiDataBillingConversionService;
@@ -81,9 +79,8 @@ public class BillingMasterApiResourse {
 
 		for (BillMaster data : billMasters) {
 
-			if (data.getClientId() == clientId) {
-				previousBal = this.billMasterReadPlatformService
-						.retrieveClientBalance(clientId);
+			if (data.getClientId().compareTo(clientId)==0) {
+				previousBal = this.billMasterReadPlatformService.retrieveClientBalance(clientId);
 			}
 
 		}
@@ -102,8 +99,10 @@ public class BillingMasterApiResourse {
 				.retrievebillDetails(billMaster.getId());
 		// List<FinancialTransactionsData>
 		// data=this.billMasterReadPlatformService.getFinancialTransactionData(billDetails.getId());
-		this.billMasterWritePlatformService.generatePdf(billDetails,
-				financialTransactionsDatas);
+   this.billMasterWritePlatformService.generatePdf(billDetails,
+			financialTransactionsDatas);
+	
+    //this.billMasterWritePlatformService.ireportPdf(billDetails,financialTransactionsDatas);	
 
 		return Response.ok().entity(1).build();
 	}

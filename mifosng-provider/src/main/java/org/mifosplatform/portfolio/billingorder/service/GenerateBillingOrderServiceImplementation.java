@@ -192,7 +192,6 @@ public class GenerateBillingOrderServiceImplementation implements
 		return invoiceTaxCommands;
 
 	}
-
 	@Override
 	public InvoiceCommand generateInvoice(
 			List<BillingOrderCommand> billingOrderCommands) {

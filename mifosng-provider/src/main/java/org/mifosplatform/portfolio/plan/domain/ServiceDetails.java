@@ -22,32 +22,32 @@ public class ServiceDetails {
     private Plan plan;
 
 	@Column(name ="service_code", length=50)
-    private String service_code;
+    private String serviceCode;
 
 
 	@Column(name = "is_deleted", nullable = false)
-	private char is_deleted = 'n';
+	private char isDeleted = 'n';
 
 
 	public ServiceDetails()
 	{}
-	public ServiceDetails(final String service_code)
+	public ServiceDetails(final String serviceCode)
 	{
 
-		this.service_code=service_code;
+		this.serviceCode=serviceCode;
 		//this.is_deleted=null;
 		this.plan=null;
 
 	}
 
 
-	public String getService_code() {
-		return service_code;
+	public String getServiceCode() {
+		return serviceCode;
 	}
 
 
-	public char isIs_deleted() {
-		return is_deleted;
+	public char isIsDeleted() {
+		return isDeleted;
 	}
 
 
@@ -61,7 +61,7 @@ public class ServiceDetails {
 		this.plan=plan1;
 	}
 	public void delete() {
-		this.is_deleted='y';
+		this.isDeleted='y';
 
 	}
 

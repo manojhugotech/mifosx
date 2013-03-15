@@ -20,8 +20,8 @@ private final PricingCommand command;
 		public void validateForCreate() {
 	         List<ApiParameterError> dataValidationErrors = new ArrayList<ApiParameterError>();
 			DataValidatorBuilder baseDataValidator = new DataValidatorBuilder(dataValidationErrors).resource("price");
-			baseDataValidator.reset().parameter("charge_code").value(command.getChargeCode()).notBlank().notNull();
-			baseDataValidator.reset().parameter("discount_id").value(command.getDiscount_id()).notBlank().notNull();
+			baseDataValidator.reset().parameter("chargeCode").value(command.getChargeCode()).notBlank().notNull();
+			baseDataValidator.reset().parameter("discountId").value(command.getdiscountId()).notBlank().notNull();
 			baseDataValidator.reset().parameter("chargevariant").value(command.getChargingVariant()).notBlank().notNull();
 			baseDataValidator.reset().parameter("price").value(command.getPrice()).notBlank().notNull();
 

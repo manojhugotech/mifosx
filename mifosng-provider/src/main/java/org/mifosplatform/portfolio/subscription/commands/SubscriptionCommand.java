@@ -4,50 +4,42 @@ import java.util.Set;
 
 public class SubscriptionCommand {
 
-	private final String subscription_period;
+	private final String subscriptionPeriod;
 
-	//private final String subscription_type;
 	private final Long subscriptionTypeId;
 	private final Long units;
-	private String day_name;
-
+	private String subscriptionType;
 	private final Long id;
 	private final Set<String> modifiedParameters;
 
 	public SubscriptionCommand(final Set<String> modifiedParameters,
 			final Long subScriptionId, final Long id,
-			final String subscription_period2,
-			final Long units, String day_name, final Long subscriptionTypeId) {
-		this.subscription_period = subscription_period2;
-	//	this.subscription_type = subscription_type;
+			final String subscriptionPeriod, final Long units,
+			String subscriptionType, final Long subscriptionTypeId) {
+		this.subscriptionPeriod = subscriptionPeriod;
+
 		this.units = units;
 		this.id = id;
-		this.day_name = day_name;//subscription_type.equalsIgnoreCase("WEEKLY") ? day_name
-			//	: null;
+		this.subscriptionType = subscriptionType;
 		this.subscriptionTypeId = subscriptionTypeId;
 		this.modifiedParameters = modifiedParameters;
 	}
-
-
 
 	public Long getSubscriptionTypeId() {
 		return subscriptionTypeId;
 	}
 
-	public String getSubscription_period() {
-		return subscription_period;
+	public String getSubscriptionPeriod() {
+		return subscriptionPeriod;
 	}
-//	public String getSubscription_type() {
-//		return subscription_type;
-//	}
 
 	public Long getUnits() {
 		return units;
 	}
 
-	public String getDay_name() {
+	public String getsubscriptionType() {
 
-		return day_name;
+		return subscriptionType;
 
 	}
 
@@ -56,19 +48,15 @@ public class SubscriptionCommand {
 	}
 
 	public boolean issubscriptionPeriodChanged() {
-		return this.modifiedParameters.contains("subscription_period");
+		return this.modifiedParameters.contains("subscriptionPeriod");
 	}
 
 	public boolean issubscriptionTypeChanged() {
-		return this.modifiedParameters.contains("subscription_type");
+		return this.modifiedParameters.contains("subscriptionType");
 	}
 
 	public boolean isUnitsChanged() {
 		return this.modifiedParameters.contains("units");
-	}
-
-	public boolean isDayNameChanged() {
-		return this.modifiedParameters.contains("day_name");
 	}
 
 	public boolean isSubscriptionTypeIdChanged() {

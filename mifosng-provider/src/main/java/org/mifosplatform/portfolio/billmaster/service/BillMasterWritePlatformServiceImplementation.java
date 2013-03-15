@@ -1,10 +1,22 @@
 package org.mifosplatform.portfolio.billmaster.service;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 import org.joda.time.LocalDate;
 import org.mifosplatform.infrastructure.core.data.CommandProcessingResult;
@@ -15,6 +27,8 @@ import org.mifosplatform.portfolio.adjustment.domain.AdjustmentRepository;
 import org.mifosplatform.portfolio.adjustment.domain.ClientBalanceRepository;
 import org.mifosplatform.portfolio.billingmaster.command.BillMasterCommand;
 import org.mifosplatform.portfolio.billingorder.data.BillDetailsData;
+import org.mifosplatform.portfolio.billingorder.data.BillingData;
+import org.mifosplatform.portfolio.billingorder.data.DataBeanMaker;
 import org.mifosplatform.portfolio.billingorder.domain.BillingOrder;
 import org.mifosplatform.portfolio.billingorder.domain.BillingOrderRepository;
 import org.mifosplatform.portfolio.billingorder.domain.InvoiceTax;
@@ -167,14 +181,13 @@ public class BillMasterWritePlatformServiceImplementation implements
 					adjustmentAmount = adjustmentAmount.add(billDetail
 							.getAmount());
 
-			} else if (billDetail.getTransactionType().equalsIgnoreCase(
-					"PAYMENT")) {
+			} else if (billDetail.getTransactionType().contains("PAYMENT")) {
 				if (billDetail.getAmount() != null)
 					paymentAmount = paymentAmount.add(billDetail.getAmount());
 
 			}
 			dueAmount = chargeAmount.add(taxAmount).add(adjustmentAmount)
-					.subtract(paymentAmount);
+					.subtract(paymentAmount).add(clientBalance);
 			billMaster.setChargeAmount(chargeAmount);
 			billMaster.setAdjustmentAmount(adjustmentAmount);
 			billMaster.setTaxAmount(taxAmount);
@@ -241,7 +254,7 @@ public class BillMasterWritePlatformServiceImplementation implements
 			Paragraph para = new Paragraph("Name           :", b1);
 			Paragraph addr = new Paragraph("Address        :", b);
 			Paragraph branch = new Paragraph("Branch       :", b);
-			branch.setSpacingBefore(12);
+			branch.setSpacingBefore(25);
 
 			cell.addElement(para);
 			cell.addElement(addr);
@@ -252,13 +265,13 @@ public class BillMasterWritePlatformServiceImplementation implements
 			
 			Paragraph add0 = new Paragraph(""+billDetails.getClientName(),b);
 			Paragraph add1 = new Paragraph(""
-											  +billDetails.getAddrNo()+","+
+											  +billDetails.getAddrNo()+""+
 											  billDetails.getStreet(), b
 											 );
 			add1.setSpacingBefore(10);
-			Paragraph add2 = new Paragraph(""+billDetails.getCity()+","
-					                           +billDetails.getState()+","
-					                           +billDetails.getCountry()+","
+			Paragraph add2 = new Paragraph(""+billDetails.getCity()+""
+					                           +billDetails.getState()+""
+					                           +billDetails.getCountry()+""
 					                           +billDetails.getZip(),b);
 			cell0.setColspan(4);
 			cell0.disableBorderSide(PdfPCell.LEFT);
@@ -335,7 +348,7 @@ public class BillMasterWritePlatformServiceImplementation implements
 
 			Paragraph previousbal = new Paragraph("Previous Balance", b);
 			Paragraph previousamount = new Paragraph(""
-					+ billDetails.getPreviousBal(), b);
+					+ billDetails.getPreviousBalance(), b);
 			cell4.setColspan(2);
 			cell4.addElement(previousbal);
 			cell4.addElement(previousamount);
@@ -477,7 +490,7 @@ public class BillMasterWritePlatformServiceImplementation implements
 
 
 
-
+                BigDecimal totalAmount=BigDecimal.ZERO;
 
 			for (FinancialTransactionsData data : datas){
 				Paragraph id = new Paragraph("" + data.getTransactionId(), b);
@@ -494,6 +507,7 @@ public class BillMasterWritePlatformServiceImplementation implements
 				Paragraph tranAmount = new Paragraph("" + data.getAmount(),b);
 
 				cell28.addElement(tranAmount);
+				totalAmount=totalAmount.add(data.getAmount());
 
 			}
 
@@ -548,7 +562,7 @@ public class BillMasterWritePlatformServiceImplementation implements
 		invoice.updateBillId(billId);
 		this.invoiceTaxRepository.save(invoice);
 		}
-           if(transIds.getTransactionType().equalsIgnoreCase("PAYMENT"))
+           if(transIds.getTransactionType().contains("PAYMENT"))
            {
 		Payment payment=this.paymentRepository.findOne(transIds.getTransactionId());
 		payment.updateBillId(billId);
@@ -565,5 +579,29 @@ public class BillMasterWritePlatformServiceImplementation implements
 
 
 	}
+	@Override
+	public void ireportPdf(BillingData billDetails, List<FinancialTransactionsData> financialTransactionsDatas) {
+		
+		try
+		{
+		FileInputStream inputStream = new FileInputStream ("C:/Users/hugo/Desktop/report21.jrxml");
 
+		DataBeanMaker dataBeanMaker = new DataBeanMaker();
+		ArrayList<BillingData> dataBeanList = dataBeanMaker.getDataBeanList(billDetails,financialTransactionsDatas);
+
+		JRBeanCollectionDataSource beanColDataSource = new 
+		JRBeanCollectionDataSource(dataBeanList);
+
+		@SuppressWarnings("rawtypes")
+		Map parameters = new HashMap();
+
+		JasperDesign jasperDesign = JRXmlLoader.load(inputStream);
+		JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, beanColDataSource);
+		JasperExportManager.exportReportToPdfFile(jasperPrint, "c://test_jasper.pdf"); 
+		}catch(Exception exception)
+		{
+			exception.printStackTrace();
+		}
+	}
 }

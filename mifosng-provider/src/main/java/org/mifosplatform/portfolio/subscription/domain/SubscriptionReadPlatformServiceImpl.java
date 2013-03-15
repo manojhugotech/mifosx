@@ -60,7 +60,7 @@ public class SubscriptionReadPlatformServiceImpl implements SubscriptionReadPlat
 private static final class SuscriptionMapper implements RowMapper<SubscriptionData>{
 
 		public String depositProductSchema(){
-			return " dp.id as id,dp.contract_period as  subscription_period,dp.contract_type as subscription_type,dp.contract_duration as units from contract_period dp ";
+			return " dp.id as id,dp.contract_period as  subscriptionPeriod,dp.contract_type as subscriptionType,dp.contract_duration as units from contract_period dp ";
 
 		}
 
@@ -69,14 +69,14 @@ private static final class SuscriptionMapper implements RowMapper<SubscriptionDa
 				throws SQLException {
 
 			Long id = rs.getLong("id");
-			String subscription_period = rs.getString("subscription_period");
-			String subscription_type = rs.getString("subscription_type");
+			String subscriptionPeriod = rs.getString("subscriptionPeriod");
+			String subscriptionType = rs.getString("subscriptionType");
 			Long units = rs.getLong("units");
 
 
 
 
-			return new SubscriptionData(id,subscription_period,subscription_type,units,null,null);
+			return new SubscriptionData(id,subscriptionPeriod,subscriptionType,units,null,null);
 		}
 
 

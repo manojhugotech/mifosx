@@ -602,15 +602,16 @@ public OrderData mapRow(final ResultSet rs, @SuppressWarnings("unused") final in
 final Long id = rs.getLong("id");
 final Long planId = rs.getLong("plan_id");
 final String plancode = rs.getString("plan_code");
-final int status = rs.getInt("order_status");
+final int statusId = rs.getInt("order_status");
 LocalDate startDate=JdbcSupport.getLocalDate(rs,"start_date");
 LocalDate endDate=JdbcSupport.getLocalDate(rs,"end_date");
 final double price=rs.getDouble("price");
 
 
-EnumOptionData status1=SavingStatusEnumaration.interestCompoundingPeriodType(status);
+EnumOptionData Enumstatus=SavingStatusEnumaration.interestCompoundingPeriodType(statusId);
+String status=Enumstatus.getValue();
 
-return new OrderData(id, planId, plancode, status1, startDate,endDate,price);
+return new OrderData(id, planId, plancode, status, startDate,endDate,price);
 }
 }
 

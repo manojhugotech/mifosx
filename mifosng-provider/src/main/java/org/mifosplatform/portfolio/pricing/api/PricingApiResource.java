@@ -142,10 +142,10 @@ public class PricingApiResource {
 		// context.authenticatedUser().validateHasReadPermission("CLIENT");
 
 		Set<String> typicalResponseParameters = new HashSet<String>(
-				Arrays.asList("plan_code", "planId", "serviceId", "chargeId",
+				Arrays.asList("planCode", "planId", "serviceId", "chargeId",
 						"price", "chargeVariantId", "discountId", "planCode",
 						"id", "serviceData", "chargeData", "data",
-						"charge_code", "charge_varaint", "price"));
+						"chargeCode", "chargeVaraint", "price"));
 
 		Set<String> responseParameters = ApiParameterHelper
 				.extractFieldsForResponseIfProvided(uriInfo

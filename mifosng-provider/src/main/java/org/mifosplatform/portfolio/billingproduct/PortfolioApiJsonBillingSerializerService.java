@@ -11,6 +11,7 @@ import org.mifosplatform.portfolio.discountmaster.data.DiscountMasterData;
 import org.mifosplatform.portfolio.financialtransaction.data.FinancialTransactionsData;
 import org.mifosplatform.portfolio.loanaccount.data.LoanBasicDetailsData;
 import org.mifosplatform.portfolio.order.data.OrderData;
+import org.mifosplatform.portfolio.order.data.OrderPriceData;
 import org.mifosplatform.portfolio.paymodes.data.PaymodeData;
 import org.mifosplatform.portfolio.plan.data.PlanData;
 import org.mifosplatform.portfolio.plan.data.ServiceData;
@@ -88,6 +89,8 @@ String serializePaymodeToJson(boolean prettyPrint,
 		PaymodeData datas);
 
 String serializeServiceMasterDataToJson(boolean prettyPrint,	Set<String> responseParameters, SericeMasterOptionsData productData);
+
+String serializeClientOrderPriceDataToJson(boolean prettyPrint,	Set<String> responseParameters, Long clientId, OrderData orderData);
 
 
 

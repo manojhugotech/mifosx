@@ -8,15 +8,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.mifosplatform.infrastructure.core.domain.AbstractAuditableCustom;
+import org.mifosplatform.useradministration.domain.AppUser;
+
 @Entity
 @Table(name = "order_line")
-public class OrderLine {
+public class OrderLine extends AbstractAuditableCustom<AppUser, Long>  {
 
-@Id
+/*@Id
 @GeneratedValue
 @Column(name="id")
 private Long id;
-
+*/
 
 @ManyToOne
 @JoinColumn(name="order_id")

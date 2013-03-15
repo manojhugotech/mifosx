@@ -942,15 +942,15 @@ public class PortfolioApiDataConversionServiceImpl implements PortfolioApiDataCo
 	  Type typeOfMap = new TypeToken<Map<String, String>>() {}.getType();
 	  Map<String, String> requestMap = gsonConverter.fromJson(json, typeOfMap);
 	  Set<String> supportedParams = new HashSet<String>(
-	  Arrays.asList("id","subscription_period","units","day_name","subscriptionTypeId")
+	  Arrays.asList("id","subscriptionPeriod","units","subscriptionType","subscriptionTypeId")
 	  );
 	  checkForUnsupportedParameters(requestMap, supportedParams);
-	  Long sub_id=extractLongParameter("id", requestMap, modifiedParameters);
+	  Long id=extractLongParameter("id", requestMap, modifiedParameters);
 	  //String subscription_type = extractStringParameter("subscription_type", requestMap,modifiedParameters);
-	   String subscription_period=extractStringParameter("subscription_period",requestMap,modifiedParameters);
+	   String subscriptionPeriod=extractStringParameter("subscriptionPeriod",requestMap,modifiedParameters);
 	  Long units=extractLongParameter("units",requestMap,modifiedParameters);
 	  Long subscriptionTypeId=extractLongParameter("subscriptionTypeId",requestMap,modifiedParameters);
-	  String day_name=extractStringParameter("day_name",requestMap,modifiedParameters);
-	  return new SubscriptionCommand(modifiedParameters,sub_id,resourceIdentifier,subscription_period,units,day_name,subscriptionTypeId);
+	  String subscriptionType=extractStringParameter("subscriptionType",requestMap,modifiedParameters);
+	  return new SubscriptionCommand(modifiedParameters,id,resourceIdentifier,subscriptionPeriod,units,subscriptionType,subscriptionTypeId);
 	  }
 }

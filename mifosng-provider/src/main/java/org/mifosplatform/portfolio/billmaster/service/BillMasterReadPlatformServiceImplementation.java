@@ -12,6 +12,7 @@ import org.mifosplatform.infrastructure.core.service.TenantAwareRoutingDataSourc
 import org.mifosplatform.infrastructure.security.service.PlatformSecurityContext;
 import org.mifosplatform.portfolio.adjustment.domain.ClientBalance;
 import org.mifosplatform.portfolio.billingorder.data.BillDetailsData;
+import org.mifosplatform.portfolio.billingorder.data.BillingData;
 import org.mifosplatform.portfolio.financialtransaction.data.FinancialTransactionsData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -136,7 +137,7 @@ public class BillMasterReadPlatformServiceImplementation implements
 					 +" WHEN 'DEBIT' THEN adjustment_amount  WHEN 'CREDIT' THEN -adjustment_amount  END   AS amount  FROM adjustment " +
 					 " WHERE adjustment_date <= NOW() AND client_id = ? UNION ALL " +
 					 " SELECT pa.id as transId,Date_format(pa.payment_date,'%Y-%m-%d') transDate,CONCAT('PAYMENT',' - ',p.paymode_description) AS transType,"
-					+"  pa.amount_paid AS amount  FROM payments pa,paymodes p WHERE payment_date <= NOW()  and pa.paymode_code=p.paymode_code AND client_id = ? order by 2";
+					+"  -pa.amount_paid AS amount  FROM payments pa,paymodes p WHERE payment_date <= NOW()  and pa.paymode_code=p.paymode_code AND client_id = ? order by 2";
 
 
 		}
@@ -154,7 +155,7 @@ public class BillMasterReadPlatformServiceImplementation implements
 	private static final class BillMapper implements RowMapper<BillDetailsData> {
 
         public String billSchema() {
-            return " *from bill_master b, m_client mc left join student_address c on c.client_id = mc.id  WHERE b.client_id = mc.id ";
+            return " *from bill_master b, m_client mc left join additional_student_personal_data c on c.client_id = mc.id  WHERE b.client_id = mc.id ";
         }
 
 
@@ -164,15 +165,15 @@ public class BillMasterReadPlatformServiceImplementation implements
 
             Long id = rs.getLong("id");
             Long clientId = rs.getLong("Client_id");
-            String addrNo = rs.getString("address_no");
+            String addrNo = rs.getString("flat_no");
             String clientName = rs.getString("display_name");
             String billPeriod = rs.getString("bill_Period");
 
             String street = rs.getString("street");
-            String zip = rs.getString("zip");
-            String city = rs.getString("city");
+            String zip = rs.getString("zip_code");
+            String city = rs.getString("county");
             String state = rs.getString("state");
-            String country = rs.getString("country_cv");
+            String country = rs.getString("country");
 
             Double previousBal=rs.getDouble("Previous_balance");
             Double chargeAmount=rs.getDouble("Charges_amount");
@@ -304,4 +305,44 @@ public class BillMasterReadPlatformServiceImplementation implements
 				return result;
 			}
 }
+
+		@Override
+		public List<FinancialTransactionsData> retrieveSingleInvoiceData(
+				Long invoiceId) {
+			InvoiceDataMapper mapper = new InvoiceDataMapper();
+			String sql = "select " + mapper.invoiceSchema();
+			return this.jdbcTemplate.query(sql, mapper,
+					new Object[] { invoiceId });
+
+		}
+
+		private static final class InvoiceDataMapper implements
+				RowMapper<FinancialTransactionsData> {
+
+			@Override
+			public FinancialTransactionsData mapRow(ResultSet rs, int rowNum)
+
+					throws SQLException {
+				
+				   String chargeType=rs.getString("chargeType");
+				   String chargeDescription=rs.getString("chargeDescription");
+				   BigDecimal chargeAmount = rs.getBigDecimal("chargeAmount");   
+				   LocalDate chargeStartDate =JdbcSupport.getLocalDate(rs,"chargeStartDate");
+				   LocalDate chargeEndDate =JdbcSupport.getLocalDate(rs,"chargeEndDate");
+				BigDecimal taxAmount = rs.getBigDecimal("taxAmount");
+				
+
+				return new FinancialTransactionsData(chargeType,chargeDescription,chargeAmount,taxAmount,chargeStartDate,chargeEndDate);
+			}
+
+			public String invoiceSchema() {
+
+				return  " c.charge_type AS chargeType, ch.charge_description AS chargeDescription,c.charge_start_date as chargeStartDate,"
+						+"c.charge_end_date as chargeEndDate,c.charge_amount AS chargeAmount,t.tax_amount AS taxAmount"
+						+" FROM charge_codes ch,charge c LEFT JOIN  charge_tax t  ON t.invoice_id = c.invoice_id"
+						+" WHERE c.charge_code = ch.charge_code AND c.invoice_id =?";
+
+
+			}
+		}
 }

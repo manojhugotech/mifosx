@@ -18,5 +18,6 @@ public interface OrderReadPlatformService {
 OrderData retrieveOrderData(Long orderId);
 void retrieveInvoice(Long clientId);
 List<PaytermData> getChargeCodes(Long planCode);
+List<OrderPriceData> retrieveOrderPriceDetails(Long orderId, Long clientId);
 
 }

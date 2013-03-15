@@ -29,7 +29,7 @@ public class OrdersCommand {
 	public OrdersCommand(final Set<String> modifiedParameters,
 			final Long plan_id, final Long client_id,
 			final LocalDate start_date, final String paytermtype,
-			final Long contractPeriod, Long clientId,boolean billalign) {
+			final Long contractPeriod, Long clientId,boolean billalign,final BigDecimal price) {
 		this.billingFrequency = paytermtype;
 		this.chargeCode = null;
 		this.chargeDuration = null;
@@ -38,13 +38,14 @@ public class OrdersCommand {
 		this.durationType = null;
 		this.modifiedParameters = modifiedParameters;
 		this.planid = plan_id;
-		this.price = null;
+		
 		this.serviceId = null;
 		this.serviceStatus = null;
 		this.serviceType = null;
 		this.startDate = start_date;
 		this.contractPeriod = contractPeriod;
 		this.billAlign=billalign;
+		this.price=price;
 	}
 
 	public Long getPlanid() {

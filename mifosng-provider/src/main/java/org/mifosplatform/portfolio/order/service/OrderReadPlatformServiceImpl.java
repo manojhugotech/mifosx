@@ -115,15 +115,26 @@ public class OrderReadPlatformServiceImpl implements OrderReadPlatformService
 	public OrderPriceData retrieveOrderPriceData(Long orderId) {
 		 context.authenticatedUser();
 
-	        String sql = "select s.id as id,s.order_id as order_id,s.charge_code as charge_code,s.service_id as service_id,s.charge_type as charge_type,s.charge_duration as charge_duration,"
-                    +"s.duration_type as duration_type,s.price as price from order_price s where s.order_id = ?";
+	        /*String sql = "select s.id as id,s.order_id as order_id,s.charge_code as charge_code,s.service_id as service_id,s.charge_type as charge_type,s.charge_duration as charge_duration,"
+                    +"s.duration_type as duration_type,s.price as price from order_price s where s.order_id = ?";*/
 
+	      
+	        
 	        RowMapper<OrderPriceData> rm = new OrderPriceMapper();
+
+	        final OrderPriceMapper orderPriceMapper=new OrderPriceMapper();
+	        
+	        String sql = "select " + orderPriceMapper.schema();
 
 	        return this.jdbcTemplate.queryForObject(sql, rm, new Object[] { orderId });
 	}
 
 	 private static final class OrderPriceMapper implements RowMapper<OrderPriceData> {
+		 public String schema() {
+			return  "s.id as id,s.order_id as order_id,s.charge_code as charge_code,s.service_id as service_id,s.charge_type as charge_type,s.charge_duration as charge_duration,"
+	                    +"s.duration_type as duration_type,s.price as price from order_price s where s.order_id = ?";
+			 
+		 }
 
 	        @Override
 	        public OrderPriceData mapRow(final ResultSet rs, @SuppressWarnings("unused") final int rowNum) throws SQLException {
@@ -729,4 +740,38 @@ return null;
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public List<OrderPriceData> retrieveOrderPriceDetails(Long orderId,Long clientId) {
+		 RowMapper<OrderPriceData> rm = new OrderPriceDataMapper();
+
+	      	        
+	        String sql = "SELECT p.id AS id,o.client_id AS clientId,p.order_id AS order_id," +
+	        		    " c.charge_description AS chargeDescription,s.service_description AS serviceDescription,"
+	        		+"p.charge_type AS charge_type,p.charge_duration AS chargeDuration,p.duration_type AS durationType,"
+	        		+"p.price AS price  FROM order_price p, charge_codes c, service s,orders o" +
+	        		"  WHERE  p.charge_code = c.charge_code AND p.service_id = s.id and o.id =p.order_id"
+	        		+"  AND p.order_id =?";
+
+	        return this.jdbcTemplate.query(sql, rm, new Object[] { orderId });
+	}
+	private static final class OrderPriceDataMapper implements RowMapper<OrderPriceData> {
+
+        @Override
+        public OrderPriceData mapRow(final ResultSet rs, @SuppressWarnings("unused") final int rowNum) throws SQLException {
+
+
+        	  Long id = rs.getLong("id");
+			  Long orderId = rs.getLong("order_id");
+			  Long clientId = rs.getLong("clientId");
+	            String chargeCode = rs.getString("serviceDescription");
+	            String chargeType = rs.getString("chargeDescription");
+	            String chargeDuration = rs.getString("chargeDuration");
+	            String durationtype = rs.getString("durationType");
+	            BigDecimal price=rs.getBigDecimal("price");
+
+	            return new OrderPriceData(id,orderId,clientId,chargeCode,chargeType,chargeDuration,durationtype,price);
+	        
+}
+
+}
 }

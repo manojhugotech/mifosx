@@ -256,4 +256,22 @@ public class OrderWritePlatformServiceImpl implements OrderWritePlatformService 
 
 	}
 
+	@Override
+	public CommandProcessingResult updateOrderPrice(Long orderId,
+			OrdersCommand command) {
+		try
+		{
+			OrderPrice orderPrice=this.OrderPriceRepository.findOne(orderId);
+			if(orderPrice!=null){
+				orderPrice.setPrice(command);
+				this.OrderPriceRepository.save(orderPrice);
+			}
+			return new CommandProcessingResult(Long.valueOf(orderPrice.getId()));
+		}catch (DataIntegrityViolationException dve) {
+			handleDataIntegrityIssues(dve);
+			return new CommandProcessingResult(Long.valueOf(-1));
+		
+	}
+
+}
 }

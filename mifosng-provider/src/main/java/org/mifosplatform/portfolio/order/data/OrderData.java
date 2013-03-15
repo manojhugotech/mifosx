@@ -11,24 +11,27 @@ import org.mifosplatform.portfolio.subscription.data.SubscriptionData;
 
 
 public class OrderData {
-	private final Long id;
-	private final Long pdid;
-	private final Long pcid;
-	private final String service_code;
-	private final String plan_code;
-	private final String chargeCode;
+	private  Long id;
+	private  Long pdid;
+	private  Long pcid;
+	private Long clientId;
+	private  String service_code;
+	private  String plan_code;
+	private String chargeCode;
 	private  double price;
-	private final String variant;
-	private final EnumOptionData status;
-	private final Long period;
+	private String variant;
+	private  String status;
+	private  Long period;
 	private LocalDate startDate;
 	private LocalDate endDate;
 	private String billingFrequency;
-	private final List<PlanCodeData> plandata;
+	private  List<PlanCodeData> plandata;
 	private  List<PaytermData> paytermdata;
-	private final  List<SubscriptionData> subscriptiondata;
+	private  List<SubscriptionData> subscriptiondata;
+	private List<OrderPriceData> orderPriceData;
+	private String cancelledStatus;
 
-	public OrderData(final Long id,final Long did,final Long cid, final String service_code,final String plan_code,final double price,final String variant,final String charge_code)
+	/*public OrderData(final Long id,final Long did,final Long cid, final String service_code,final String plan_code,final double price,final String variant,final String charge_code)
 	{
 		this.id=id;
 		this.pcid=did;
@@ -43,7 +46,7 @@ public class OrderData {
 		this.subscriptiondata=null;
 		this.status=null;
 		this.period=null;
-	}
+	}*/
 
 	public OrderData(List<PlanCodeData> allowedtypes, List<PaytermData> data, List<SubscriptionData> subscription)
 	{
@@ -71,7 +74,7 @@ public class OrderData {
 
 
 
-	public OrderData(Long id, Long plan_id, LocalDate start_date,
+	/*public OrderData(Long id, Long plan_id, LocalDate start_date,
 			Long billing_frequency, Long contarctPeriod) {
 
 		this.id=id;
@@ -90,7 +93,7 @@ public class OrderData {
 		this.subscriptiondata=null;
 
 	}
-
+*/
 	public OrderData(List<PlanCodeData> allowedtypes, List<PaytermData> data1,
 			List<SubscriptionData> contractPeriod, OrderData data) {
 
@@ -112,12 +115,13 @@ public class OrderData {
 	}
 
 	public OrderData(Long id, Long planId, String plancode,
-			EnumOptionData status1, LocalDate startDate, LocalDate endDate,
+			String status, LocalDate startDate, LocalDate endDate,
 			double price) {
 		this.id=id;
 		this.pdid=planId;
 		this.plan_code=plancode;
-		this.status=status1;
+		this.status=status;
+		this.cancelledStatus="CANCELLED";
 		this.period=null;
 		this.startDate=startDate;
 		this.endDate=endDate;
@@ -151,12 +155,29 @@ public class OrderData {
 
 	}
 
+	public OrderData(List<OrderPriceData> priceDatas) {
+		this.orderPriceData=priceDatas;
+	
+	}
+
 	public Long getId() {
 		return id;
 	}
 
 	public Long getPdid() {
 		return pdid;
+	}
+
+	public Long getClientId() {
+		return clientId;
+	}
+
+	public String getBillingFrequency() {
+		return billingFrequency;
+	}
+
+	public List<OrderPriceData> getOrderPriceData() {
+		return orderPriceData;
 	}
 
 	public Long getPcid() {
@@ -173,7 +194,7 @@ public class OrderData {
 		return endDate;
 	}
 
-	public EnumOptionData getStatus() {
+	public String getStatus() {
 		return status;
 	}
 

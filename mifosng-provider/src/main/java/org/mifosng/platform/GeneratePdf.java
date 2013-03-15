@@ -29,7 +29,7 @@ Connection conn = (Connection) DriverManager.getConnection(
 "mysql");
 Statement stmt = (Statement) conn.createStatement();
 ResultSet rs = stmt
-.executeQuery("select *from bill_master b,bill_details be where  b.id = be.bill_id and b.id=10;");
+.executeQuery("select *from bill_master b,additional_student_personal_data c,bill_details be where  b.id = be.bill_id and b.id=108;");
 // ResultSet rs1 = stmt.executeQuery("select * from bill_details");
 
 for(int i=0;rs.next();i++)
@@ -37,7 +37,7 @@ for(int i=0;rs.next();i++)
 Document document = new Document();
 
 PdfWriter writer = PdfWriter.getInstance(document,
-new FileOutputStream("tableTilePDF" + i + ".pdf"));
+new FileOutputStream("tableTilePDF.pdf"));
 document.open();
 PdfContentByte pdfContentByte = writer.getDirectContent();
 Font b = new Font(Font.BOLD + Font.BOLD,8);
@@ -60,7 +60,7 @@ cell.setColspan(2);
 Paragraph para = new Paragraph("Name :", b1);
 Paragraph addr = new Paragraph("Address :", b);
 Paragraph branch = new Paragraph("Branch :", b);
-branch.setSpacingBefore(12);
+branch.setSpacingBefore(10);
 
 cell.addElement(para);
 cell.addElement(addr);
@@ -69,9 +69,9 @@ cell.disableBorderSide(PdfPCell.RIGHT);
 table.addCell(cell);
 PdfPCell cell0 = new PdfPCell();
 Paragraph add0 = new Paragraph("", b);
-Paragraph add1 = new Paragraph(""/*+rs.getString("address_no")+","+rs.getString("street"), b*/);
+Paragraph add1 = new Paragraph(""+rs.getString("county")+","+rs.getString("street"), b);
 add1.setSpacingBefore(10);
-Paragraph add2 = new Paragraph(""/*+rs.getString("city")+","+rs.getString("state")+"-"+rs.getString("zip"), b*/);
+Paragraph add2 = new Paragraph(""+rs.getString("flat_no")+","+rs.getString("state")+"-"+rs.getString("zip_code"), b);
 cell0.setColspan(4);
 cell0.disableBorderSide(PdfPCell.LEFT);
 cell0.addElement(add0);
@@ -326,7 +326,7 @@ document.add(table);
 document.close();
 
 Runtime.getRuntime().exec(
-"rundll32 url.dll,FileProtocolHandler tableTilePDF"+i+".pdf");
+"rundll32 url.dll,FileProtocolHandler tableTilePDF.pdf");
 
 }
 rs.close();

@@ -15,4 +15,6 @@ public interface OrderWritePlatformService {
 
 	CommandProcessingResult updateOrder(Long orderId);
 
+	CommandProcessingResult updateOrderPrice(Long orderId, OrdersCommand command);
+
 }

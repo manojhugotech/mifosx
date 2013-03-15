@@ -55,8 +55,8 @@ public class PlanWritePlatformServiceImpl implements PlanWritePlatformService {
 			@SuppressWarnings("unchecked")
 			String[] services=command.getServices();
 			 List<ServiceDetails> serviceDetails = new ArrayList<ServiceDetails>();
-			Plan data = new Plan(command.getPlan_code(),
-					command.getPlan_description(), command.getStartDate(),
+			Plan data = new Plan(command.getplanCode(),
+					command.getplanDescription(), command.getStartDate(),
 					command.getEndDate(), command.getBillRule(),command.getStatus(),command.getContractPeriod(),serviceDetails);
 			 for (String clientId : services) {
 	                final Long id = Long.valueOf(clientId);

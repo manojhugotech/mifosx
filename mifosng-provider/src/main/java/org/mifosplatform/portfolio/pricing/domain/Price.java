@@ -15,62 +15,62 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 public class Price extends AbstractPersistable<Long> {
 
 	@Column(name = "plan_code")
-	private Long plan_code;
+	private Long planCode;
 
 	@Column(name = "service_code")
-	private String service_code;
+	private String serviceCode;
 
 	@Column(name = "charge_code")
-	private String charge_code;
+	private String chargeCode;
 
 	@Column(name = "charging_variant")
-	private String charging_variant;
+	private String chargingVariant;
 
 	@Column(name = "price", scale = 6, precision = 19, nullable = false)
 	private BigDecimal price;
 
 	@Column(name = "discount_id", nullable = false)
-	private Long discount_id;
+	private Long discountId;
 
 	@Column(name = "is_deleted")
-	private String is_deleted="n";
+	private String isDeleted="n";
 
 	public Price() {
 	}
 
-	public Price(final Long plan_code, final String charge_code,
-			final String service_code, final String charging_variant,
-			final BigDecimal price, final Long discount_id)
+	public Price(final Long planCode, final String chargeCode,
+			final String serviceCode, final String chargingVariant,
+			final BigDecimal price, final Long discountId)
 
 	{
 
-		this.plan_code = plan_code;
-		this.service_code = service_code;
-		this.charge_code = charge_code;
+		this.planCode = planCode;
+		this.serviceCode = serviceCode;
+		this.chargeCode = chargeCode;
 
-		this.charging_variant = charging_variant;
+		this.chargingVariant = chargingVariant;
 		this.price = price;
-		this.discount_id = discount_id;
+		this.discountId = discountId;
 	}
 
-	public String getCharging_variant() {
-		return charging_variant;
+	public String getChargingVariant() {
+		return chargingVariant;
 	}
 
-	public void setCharging_variant(String charging_variant) {
-		this.charging_variant = charging_variant;
+	public void setCharging_variant(String chargingVariant) {
+		this.chargingVariant = chargingVariant;
 	}
 
 	public Long getPlanCode() {
-		return plan_code;
+		return planCode;
 	}
 
 	public String getServiceCode() {
-		return service_code;
+		return serviceCode;
 	}
 
 	public String getChargeCode() {
-		return charge_code;
+		return chargeCode;
 	}
 
 	public BigDecimal getPrice() {
@@ -78,20 +78,20 @@ public class Price extends AbstractPersistable<Long> {
 	}
 
 	public Long getDiscountId() {
-		return discount_id;
+		return discountId;
 	}
 
 	public void update(PricingCommand command) {
 		if (command.isServiceCodeChanged()) {
-			this.service_code = command.getServiceCode();
+			this.serviceCode = command.getServiceCode();
 		}
 		if (command.isChargeCodeChanged()) {
-			this.charge_code = command.getChargeCode();
+			this.chargeCode = command.getChargeCode();
 		}
 		if (command.isChargeVariantChanged()) {
-			this.charging_variant = command.getChargingVariant();
+			this.chargingVariant = command.getChargingVariant();
 			if (command.isDiscountChanged()) {
-				this.discount_id = command.getDiscount_id();
+				this.discountId = command.getdiscountId();
 			}
 			if (command.isPriceChanged()) {
 				this.price = command.getPrice();
@@ -104,7 +104,7 @@ public class Price extends AbstractPersistable<Long> {
 
 
 
-			this.is_deleted = "y";
+			this.isDeleted = "y";
 
 
 	}

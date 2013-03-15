@@ -21,7 +21,7 @@ public class PlanCommandValidator {
 	public void validateForCreate() {
          List<ApiParameterError> dataValidationErrors = new ArrayList<ApiParameterError>();
 		DataValidatorBuilder baseDataValidator = new DataValidatorBuilder(dataValidationErrors).resource("plan");
-		baseDataValidator.reset().parameter("plan_code").value(command.getPlan_code()).notBlank();
+		baseDataValidator.reset().parameter("planCode").value(command.getplanCode()).notBlank();
 		//baseDataValidator.reset().parameter("subscription_type").value(command.getSubscription_type()).notBlank().notNull();
 		baseDataValidator.reset().parameter("startDate").value(command.getStartDate()).notBlank();
 		baseDataValidator.reset().parameter("services").value(command.getServices()).notBlank();

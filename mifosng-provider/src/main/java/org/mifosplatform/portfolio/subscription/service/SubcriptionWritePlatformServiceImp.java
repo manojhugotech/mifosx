@@ -47,7 +47,7 @@ public class SubcriptionWritePlatformServiceImp implements SubcriptionWritePlatf
 
 
 
-			Subscription data=new Subscription(command.getSubscription_period(),command.getUnits(),command.getDay_name(),command.getSubscriptionTypeId());
+			Subscription data=new Subscription(command.getSubscriptionPeriod(),command.getUnits(),command.getsubscriptionType(),command.getSubscriptionTypeId());
 
 
 
@@ -77,7 +77,7 @@ public class SubcriptionWritePlatformServiceImp implements SubcriptionWritePlatf
 				throw new DepositProductNotFoundException(command.getId());
 			}
 
-			subscription.update(command,command.getDay_name());
+			subscription.update(command,command.getsubscriptionType());
 			this.subscriptionRepository.save(subscription);
 			return new CommandProcessingResult(Long.valueOf(subscription.getId()));
 		} catch (DataIntegrityViolationException dve) {
